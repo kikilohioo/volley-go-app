@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView x:Class="VolleyGo.Views.Components.ChampionshipList"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:VolleyGo.Models.API.Championship"
+             xmlns:converters="clr-namespace:VolleyGo.Utils.Converters"
+             xmlns:local="clr-namespace:VolleyGo.Views.Components">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:FullPathConverter x:Key="FullPathConverter" />
+            <converters:ChampionshipStatusToTextConverter x:Key="ChampionshipStatusToTextConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <CollectionView ItemsSource="{Binding Championships}"
+                    x:Name="ChampionshipsCollectionView"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light=White}"
+                    SelectionMode="None">
+
+        <CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Vertical"
+                               ItemSpacing="0" />
+        </CollectionView.ItemsLayout>
+
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="models:ChampionshipResponse">
+                <SwipeView>
+
+                    <!-- 👉 ACCIONES AL SWIPE -->
+                    <SwipeView.RightItems>
+                        <SwipeItems Mode="Reveal">
+                            <SwipeItem BackgroundColor="#E53935"
+                                       IconImageSource="trash_icon_white.png"
+                                       Text="Eliminar"
+                                       Command="{Binding Source={RelativeSource AncestorType={x:Type local:ChampionshipList}},
+                                              Path=DeleteChampionshipCommand}"
+                                       CommandParameter="{Binding .}" />
+                        </SwipeItems>
+                    </SwipeView.RightItems>
+                    <Border Padding="0"
+                            Margin="10,20,10,10"
+                            StrokeThickness="0.4"
+                            StrokeShape="RoundRectangle 20"
+                            Stroke="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Gray300}}"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray500}}">
+
+                        <Grid RowDefinitions="2*,Auto"
+                              ColumnDefinitions="*">
+
+                            <!-- Imagen del campeonato -->
+                            <Image Grid.Row="0"
+                                   Aspect="AspectFill"
+                                   HeightRequest="180"
+                                   Source="{Binding LogoUrl, Converter={StaticResource FullPathConverter}}" />
+
+                            <!-- Contenido -->
+                            <VerticalStackLayout Grid.Row="1"
+                                                 Padding="12"
+                                                 Spacing="6">
+
+                                <!-- Nombre -->
+                                <Label Text="{Binding Name}"
+                                       FontAttributes="Bold"
+                                       FontSize="20"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark=White}" />
+
+                                <Grid RowDefinitions="*,*"
+                                      ColumnDefinitions="5*,3*">
+                                    <!-- Fecha y hora -->
+                                    <Label Text="{Binding StartDate, StringFormat='Inicio:{0: dddd d/M/yyyy hh:mm} hs'}"
+                                           FontSize="14"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+
+                                    <!-- Precio -->
+                                    <Label Grid.Row="1"
+                                           Text="{Binding PlayerCost, StringFormat='$ {0:0},00 por jugador'}"
+                                           FontSize="14"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray100}}" />
+
+                                    <Button Grid.Column="1"
+                                            Grid.RowSpan="2"
+                                            Text="Ver ubicación"
+                                            ImageSource="location_icon_white.png"
+                                            Margin="0,8,0,0"
+                                            HeightRequest="30"
+                                            CornerRadius="12"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryLigth}, Dark={StaticResource PrimaryDark}}"
+                                            TextColor="White"
+                                            Padding="0,12"
+                                            FontSize="11"
+                                            FontAttributes="Bold"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ChampionshipList}}, Path=ShowMapForChampionshipCommand}"
+                                            CommandParameter="{Binding .}" />
+                                </Grid>
+                                <!-- Botón Inscribirse -->
+                                <Button Text="Inscribirme"
+                                        IsVisible="{Binding CanRegister}"
+                                        Margin="0,8,0,0"
+                                        HeightRequest="42"
+                                        CornerRadius="12"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        TextColor="White"
+                                        FontAttributes="Bold"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ChampionshipList}}, Path=RegisterCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <!-- Botones de Usuario Inscripto -->
+                                <Grid ColumnDefinitions="*,*"
+                                      ColumnSpacing="10"
+                                      IsVisible="{Binding IsRegistered}">
+                                    <Button Text="Ver mi equipo"
+                                            Margin="0,8,0,0"
+                                            ImageSource="add_team_icon_white.png"
+                                            HeightRequest="42"
+                                            CornerRadius="12"
+                                            BackgroundColor="{StaticResource PrimaryLigth}"
+                                            TextColor="White"
+                                            FontAttributes="Bold"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ChampionshipList}}, Path=GoToChampionshipCommand}"
+                                            CommandParameter="{Binding .}" />
+                                    <Button Text="Ver campeonato"
+                                            Grid.Column="1"
+                                            Margin="0,8,0,0"
+                                            HeightRequest="42"
+                                            Padding="0,10,0,10"
+                                            ImageSource="cup_icon_white.png"
+                                            CornerRadius="12"
+                                            BackgroundColor="{StaticResource Primary}"
+                                            TextColor="White"
+                                            FontAttributes="Bold"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ChampionshipList}}, Path=GoToChampionshipCommand}"
+                                            CommandParameter="{Binding .}" />
+                                </Grid>
+
+                            </VerticalStackLayout>
+                            <Border BackgroundColor="{StaticResource Primary}"
+                                    VerticalOptions="Start"
+                                    HorizontalOptions="Start"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 10"
+                                    HeightRequest="30"
+                                    Padding="10,4,10,0"
+                                    Margin="10"
+                                    MaximumWidthRequest="170">
+                                <Label Text="{Binding Status, Converter={StaticResource ChampionshipStatusToTextConverter}}" 
+                                       TextColor="White"
+                                       HorizontalOptions="Center"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </SwipeView>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentView>

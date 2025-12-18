@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="http://schemas.syncfusion.com/maui/toolkit"
+             xmlns:components="clr-namespace:VolleyGo.Views.Components"
+             x:Class="VolleyGo.Views.Components.TeamForm">
+
+    <Grid>
+
+        <ScrollView>
+            <VerticalStackLayout Padding="20"
+                                 Spacing="20">
+
+                <!-- Título -->
+                <Label Text="{Binding FormTitle}"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       Margin="0,10" />
+
+                <!-- Nombre del equipo -->
+                <syncfusion:SfTextInputLayout Hint="Nombre del equipo"
+                                              HelperText="Ej: Tigres del Norte"
+                                              ContainerType="Outlined">
+                    <Entry Text="{Binding Team.Name}"
+                           FontSize="15"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                </syncfusion:SfTextInputLayout>
+
+                <Border />
+                <Label Text="Datos del jugador *" />
+                <Grid ColumnDefinitions="*,*,*">
+                    <syncfusion:SfTextInputLayout Hint="Nº jugador"
+                                                  ContainerType="Outlined">
+                        <Entry Text="{Binding Player.Number}"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                    </syncfusion:SfTextInputLayout>
+                    <syncfusion:SfTextInputLayout Hint="Posición"
+                                                  Grid.Column="1"
+                                                  HeightRequest="85"
+                                                  ContainerType="Outlined">
+                        <Picker SelectedItem="{Binding Player.Position}"
+                                FontSize="15"
+                                FontAttributes="Bold"
+                                TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                    </syncfusion:SfTextInputLayout>
+                    <syncfusion:SfTextInputLayout Hint="Nombre"
+                                                  IsEnabled="False"
+                                                  Grid.Column="2"
+                                                  ContainerType="Outlined">
+                        <Entry Text="{Binding Player.Name}"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                    </syncfusion:SfTextInputLayout>
+                </Grid>
+
+                <!-- Campeonato -->
+                <VerticalStackLayout Spacing="10"
+                                     Margin="0,20">
+                    <Label Text="Esta creando un equipo para el campeonato"
+                           FontSize="20"
+                           FontAttributes="Bold" />
+                    <Label Text="{Binding ToRegisterChambionshipName}"
+                           FontSize="23"
+                           TextColor="{StaticResource Primary}" />
+                </VerticalStackLayout>
+
+                <!-- Logo -->
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Logo del equipo (opcional)"
+                           FontAttributes="Bold"
+                           FontSize="14" />
+
+                    <Border StrokeShape="RoundRectangle 12"
+                            Stroke="#CCCCCC"
+                            Padding="15"
+                            BackgroundColor="{AppThemeBinding Light=#F2F2F2, Dark=#2A2A2A}">
+
+                        <Grid ColumnDefinitions="Auto,*">
+                            <Image Source="{Binding TeamLogoPreview}"
+                                   WidthRequest="60"
+                                   HeightRequest="60"
+                                   Aspect="AspectFill" />
+
+                            <Button Grid.Column="1"
+                                    Text="Seleccionar imagen"
+                                    Command="{Binding PickLogoCommand}"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Botón guardar -->
+                <syncfusion:SfButton Text="{Binding SubmitButtonText}"
+                                     Command="{Binding SubmitCommand}"
+                                     Margin="0,20"
+                                     MinimumHeightRequest="50"
+                                     CornerRadius="10"
+                                     FontAttributes="Bold"
+                                     FontSize="16"
+                                     Background="{StaticResource Primary}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Popup -->
+        <components:Popup />
+
+        <!-- Loading -->
+        <Grid BackgroundColor="#80000000"
+              IsVisible="{Binding IsBusy}">
+            <ActivityIndicator IsRunning="True"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Color="White" />
+        </Grid>
+
+    </Grid>
+</ContentView>

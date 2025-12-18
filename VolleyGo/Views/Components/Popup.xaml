@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="http://schemas.syncfusion.com/maui/toolkit"
+             xmlns:languages="clr-namespace:VolleyGo.Utils.Languages"
+             x:Class="VolleyGo.Views.Components.Popup"
+             IsVisible="{Binding ShowPopup}">
+    <syncfusion:SfPopup x:Name="sfPopup"     
+                 StaysOpen="True"
+                 HeaderTitle="{Binding PopupTitle}"
+                 ShowCloseButton="True"
+                 DeclineCommand="{Binding ClosePopupCommand}"
+                 AcceptCommand="{Binding ClosePopupCommand}"
+                 AcceptButtonText="{languages:Translate Accept}"
+                 ShowFooter="True"
+                 WidthRequest="312"
+                 AutoSizeMode="Height"
+                 IsOpen="{Binding ShowPopup}"
+                 HeaderHeight="72">
+        <syncfusion:SfPopup.ContentTemplate>
+            <DataTemplate>
+                <Label Text="{Binding PopupMessage}"
+                        LineBreakMode="WordWrap"
+                        Padding="25,0"
+                        TextColor="#49454E" FontSize="14" 
+                        WidthRequest="300"
+                       />
+            </DataTemplate>
+        </syncfusion:SfPopup.ContentTemplate>
+    </syncfusion:SfPopup>
+</ContentView>

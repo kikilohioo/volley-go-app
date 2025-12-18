@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:VolleyGo.Views.Components"
+             xmlns:vm="clr-namespace:VolleyGo.ViewModels.Organizer"
+             x:DataType="vm:ChampionshipOrganizerViewModel"
+             Shell.BackgroundColor="{StaticResource Primary}"
+             x:Class="VolleyGo.Views.Organizer.ChampionshipOrganizerPage"
+             Title="ChampionshipOrganizerPage">
+    <Shell.TitleView>
+        <components:Header Title="Tu Campeonato" />
+    </Shell.TitleView>
+    <Grid
+        RowDefinitions="*, Auto"
+        >
+        <VerticalStackLayout 
+            Grid.RowSpan="2"
+            Padding="20" 
+            Spacing="20">
+
+            <!-- HEADER -->
+            <Label Text="Dashboard de Campeonatos"
+               FontSize="28"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+
+            <!-- RESUMEN (CARDS) -->
+            <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto">
+
+                <!-- Campeonatos activos -->
+                <Border BackgroundColor="#4E73DF"
+                   StrokeShape="RoundRectangle 12"
+                   Padding="15"
+                   Grid.Column="0">
+                    <VerticalStackLayout>
+                        <Label Text="Activos"
+                           FontSize="14"
+                           TextColor="White"/>
+                        <Label Text="{Binding TotalActivos}"
+                           FontSize="26"
+                           FontAttributes="Bold"
+                           TextColor="White"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Equipos registrados -->
+                <Border BackgroundColor="#1CC88A"
+                   StrokeShape="RoundRectangle 12"
+                   Padding="15"
+                   Grid.Column="1">
+                    <VerticalStackLayout>
+                        <Label Text="Equipos"
+                           FontSize="14"
+                           TextColor="White"/>
+                        <Label Text="{Binding TotalEquipos}"
+                           FontSize="26"
+                           FontAttributes="Bold"
+                           TextColor="White"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Partidos jugados -->
+                <Border BackgroundColor="#F6C23E"
+                   StrokeShape="RoundRectangle 12"
+                   Padding="15"
+                   Grid.Column="2">
+                    <VerticalStackLayout>
+                        <Label Text="Partidos"
+                           FontSize="14"
+                           TextColor="Black"/>
+                        <Label Text="{Binding TotalPartidos}"
+                           FontSize="26"
+                           FontAttributes="Bold"
+                           TextColor="Black"/>
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <!-- ÚLTIMOS PARTIDOS -->
+            <Label Text="Últimos Partidos"
+               FontSize="22"
+               FontAttributes="Bold"/>
+
+            <CollectionView ItemsSource="{Binding UltimosPartidos}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Stroke="#DDD"
+                           StrokeShape="RoundRectangle 10"
+                           Padding="15"
+                           Margin="0,5">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Titulo}"
+                                       FontAttributes="Bold"
+                                       FontSize="18"/>
+                                    <Label Text="{Binding Fecha}"
+                                       FontSize="14"
+                                       TextColor="#777"/>
+                                </VerticalStackLayout>
+
+                                <Label Text="{Binding Resultado}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="End"
+                                   Grid.Column="1"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- PRÓXIMOS PARTIDOS -->
+            <Label Text="Próximos Partidos"
+               FontSize="22"
+               FontAttributes="Bold"
+               Margin="0,20,0,0"/>
+
+            <CollectionView ItemsSource="{Binding ProximosPartidos}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Stroke="#DDD"
+                           StrokeShape="RoundRectangle 10"
+                           Padding="15"
+                           Margin="0,5">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Titulo}"
+                                       FontAttributes="Bold"
+                                       FontSize="18"/>
+                                    <Label Text="{Binding Fecha}"
+                                       FontSize="14"
+                                       TextColor="#777"/>
+                                </VerticalStackLayout>
+
+                                <Button Text="Detalles"
+                                    Grid.Column="1"
+                                    Style="{StaticResource PrimaryButtonStyle}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+        <!--loading-->
+        <Grid
+            Grid.RowSpan="2"
+            BackgroundColor="#80000000"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"
+            IsVisible="{Binding IsBusy}">
+
+            <!-- Centra cualquier contenido del Grid -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ActivityIndicator
+                IsRunning="True"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Color="White" />
+
+        </Grid>
+        <components:Popup />
+    </Grid>
+</ContentPage>

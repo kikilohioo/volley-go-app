@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="http://schemas.syncfusion.com/maui/toolkit"
+             xmlns:components="clr-namespace:VolleyGo.Views.Components"
+             xmlns:models="clr-namespace:VolleyGo.Models.Internal"
+             xmlns:droid="clr-namespace:CommunityToolkit.Maui.PlatformConfiguration.AndroidSpecific;assembly=CommunityToolkit.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             droid:NavigationBar.Color="{StaticResource Primary}"
+             droid:NavigationBar.Style="LightContent"
+             xmlns:vm="clr-namespace:VolleyGo.ViewModels"
+             Shell.NavBarIsVisible="False"
+             x:DataType="vm:LoginViewModel"
+             x:Class="VolleyGo.Views.LoginPage">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource Primary}" />
+    </ContentPage.Behaviors>
+    <ScrollView>
+        <Grid
+            RowDefinitions="*,*,*,*"
+            VerticalOptions="Start"
+            >
+            <!--image carousel-->
+            <Border
+                StrokeShape="RoundRectangle 0 0 50 50"
+                HeightRequest="250"
+                StrokeThickness="0"
+                BackgroundColor="White"
+                Margin="10,0"
+                >
+                <CarouselView 
+                    x:Name="carousel"
+                    ItemsSource="{Binding ImageCollection}"
+                    PeekAreaInsets="70"
+                    IsSwipeEnabled="False"
+                    >
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate x:DataType="models:CarouselModel">
+                            <Border
+                                StrokeThickness="0"
+                                >
+                                <Image 
+                                    Source="{Binding Image}" 
+                                    Aspect="AspectFit"
+                                    WidthRequest="450"
+                                    />
+                            </Border>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+            </Border>
+            <!--welcome message-->
+            <Label
+                Grid.Row="1"
+                Text="Bienvenidx a Volley Go!"
+                HorizontalTextAlignment="Center"
+                VerticalTextAlignment="Center"
+                Margin="0,30,0,0"
+                FontSize="30"
+                FontAttributes="Bold"
+                />
+            <!--login form-->
+            <VerticalStackLayout
+                Grid.Row="2"
+                Spacing="20"
+                Margin="0,20,0,50"
+                Padding="20,0,20,0"
+                >
+                <!--email input-->
+                <syncfusion:SfTextInputLayout 
+                    Hint="Email" 
+                    HelperText="Ingresa tu email"
+                    ContainerType="Outlined"
+                    >
+                    <syncfusion:SfTextInputLayout.HintLabelStyle>
+                        <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}"/>
+                    </syncfusion:SfTextInputLayout.HintLabelStyle>
+                    <syncfusion:SfTextInputLayout.HelperLabelStyle>
+                        <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark={StaticResource Gray400}, Light=Black}"/>
+                    </syncfusion:SfTextInputLayout.HelperLabelStyle>
+                    <syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                        <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}"/>
+                    </syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                    <Entry 
+                        x:Name="inputEmail"
+                        Text="{Binding Email}"
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        TextColor="{AppThemeBinding Dark=White, Light=Black}"
+                        Keyboard="Email"
+                        IsPassword="False"
+                        />
+                </syncfusion:SfTextInputLayout>
+                <!--password input-->
+                <syncfusion:SfTextInputLayout 
+                    Hint="Contraseña" 
+                    HelperText="Ingresa tu contraseña"
+                    EnablePasswordVisibilityToggle="true"
+                    ContainerType="Outlined"
+                    >
+                    <syncfusion:SfTextInputLayout.HintLabelStyle>
+                        <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}"/>
+                    </syncfusion:SfTextInputLayout.HintLabelStyle>
+                    <syncfusion:SfTextInputLayout.HelperLabelStyle>
+                        <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark={StaticResource Gray400}, Light=Black}"/>
+                    </syncfusion:SfTextInputLayout.HelperLabelStyle>
+                    <syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                        <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}"/>
+                    </syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                    <Entry 
+                        x:Name="inputPassword"
+                        Text="{Binding Password}"
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        TextColor="{AppThemeBinding Dark=White, Light=Black}"
+                        />
+                </syncfusion:SfTextInputLayout>
+                <syncfusion:SfButton 
+                    x:Name="loginButton"
+                    Margin="0,20,0,0"
+                    Text="Iniciar Sesión" 
+                    MinimumHeightRequest="50"
+                    FontAttributes="Bold"
+                    FontSize="15"
+                    CornerRadius="10"
+                    Command="{Binding LoginCommand}"
+                    Background="{StaticResource Primary}"
+                    >
+                </syncfusion:SfButton>
+                <Button 
+                    Text="¿No tienes una cuenta aun? Registrate aqui"
+                    Command="{Binding GoToRegisterCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="Blue"
+                    FontAttributes="Bold"
+                    Padding="0"
+                    BorderWidth="0"
+                    HorizontalOptions="Center" />
+            </VerticalStackLayout>
+            <!--copyright label-->
+            <VerticalStackLayout
+                Grid.Row="3"
+                Padding="0,0,0,40"
+                >
+                <Label
+                    Text="Volley Go! © all rights reserved ahre"
+                    HorizontalTextAlignment="Center"
+                    />
+            </VerticalStackLayout>
+            <!--esto se importa solo asi y luego los datos los manipulamos en el view model-->
+            <components:Popup />
+            <!--loading-->
+            <Grid
+                Grid.RowSpan="4"
+                BackgroundColor="#80000000"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill"
+                IsVisible="{Binding IsBusy}">
+
+                <!-- Centra cualquier contenido del Grid -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ActivityIndicator
+                    IsRunning="True"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Color="White" />
+
+            </Grid>
+        </Grid>
+    </ScrollView>
+</ContentPage>

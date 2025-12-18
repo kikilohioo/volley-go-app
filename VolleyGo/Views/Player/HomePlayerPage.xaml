@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VolleyGo.Views.Player.HomePlayerPage"
+             xmlns:vm="clr-namespace:VolleyGo.ViewModels.Player"
+             xmlns:syncfusion="http://schemas.syncfusion.com/maui/toolkit"
+             xmlns:components="clr-namespace:VolleyGo.Views.Components"
+             x:DataType="vm:HomePlayerViewModel"
+             xmlns:PullToRefreshControl="http://schemas.syncfusion.com/maui/toolkit"
+             Shell.BackgroundColor="{StaticResource Primary}"
+             Title="HomeOrganizerPage">
+    <Shell.TitleView>
+        <components:Header ShowLogoutButton="True" />
+    </Shell.TitleView>
+    <syncfusion:SfBottomSheet x:Name="bottomSheet"
+                              AllowedState="HalfExpanded"
+                              Background="{AppThemeBinding Light=White, Dark={StaticResource PrimaryDark}}"
+                              CornerRadius="15, 15, 0, 0"
+                              IsOpen="{Binding ShowBottomSheet}">
+        <syncfusion:SfBottomSheet.Content>
+            <Grid RowDefinitions="*">
+                <PullToRefreshControl:SfPullToRefresh IsRefreshing="{Binding IsBusy}"
+                                                      RefreshCommand="{Binding InitializeCommand}"
+                                                      ProgressColor="{StaticResource Primary}"
+                                                      BackgroundColor="{StaticResource PrimaryDark}"
+                                                      Padding="0,50,0,0"
+                                                      PullingThreshold="30"
+                                                      RefreshViewHeight="30"
+                                                      RefreshViewThreshold="30"
+                                                      RefreshViewWidth="30"
+                                                      TransitionMode="Push">
+                    <PullToRefreshControl:SfPullToRefresh.PullableContent>
+                        <Grid RowDefinitions="*"
+                              BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}}">
+                            <components:ChampionshipList ShowMapForChampionshipCommand="{Binding ShowMapForChampionshipCommand}"
+                                                         RegisterCommand="{Binding RegisterToChampionshipCommand}" />
+                            <components:CustomMap IsVisible="{Binding ShowMap}"
+                                                  Grid.RowSpan="2"
+                                                  x:Name="ChampionshipMap"
+                                                  SetLocation="{Binding Location}" />
+                        </Grid>
+                    </PullToRefreshControl:SfPullToRefresh.PullableContent>
+                </PullToRefreshControl:SfPullToRefresh>
+            </Grid>
+        </syncfusion:SfBottomSheet.Content>
+        <syncfusion:SfBottomSheet.BottomSheetContent>
+            <Grid RowDefinitions="*,Auto,Auto,Auto"
+                  RowSpacing="10"
+                  Padding="10">
+                <Label Text="😎 Quiero inscribirme"
+                       Margin="0,0,0,0"
+                       FontAttributes="Bold"
+                       FontSize="25" />
+                <!--datos del jugador-->
+                <Grid ColumnDefinitions="*,*,*"
+                      Grid.Row="1">
+                    <syncfusion:SfTextInputLayout Hint="Nº jugador"
+                                                  ContainerType="Outlined">
+                        <Entry Text="{Binding PlayerJoinTeamRequest.JerseyNumber, Mode=TwoWay}"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                    </syncfusion:SfTextInputLayout>
+                    <syncfusion:SfTextInputLayout Hint="Posición"
+                                                  Grid.Column="1"
+                                                  HeightRequest="85"
+                                                  ContainerType="Outlined">
+                        <Picker SelectedItem="{Binding SelectedPlayerPosition, Mode=TwoWay}"
+                                ItemDisplayBinding="{Binding Display}"
+                                ItemsSource="{Binding PlayerPositions}"
+                                FontSize="15"
+                                FontAttributes="Bold"
+                                TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                    </syncfusion:SfTextInputLayout>
+                    <syncfusion:SfTextInputLayout Hint="Nombre"
+                                                  IsEnabled="False"
+                                                  Grid.Column="2"
+                                                  ContainerType="Outlined">
+                        <Entry Text="{Binding PlayerJoinTeamRequest.Name}"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                    </syncfusion:SfTextInputLayout>
+                </Grid>
+                <VerticalStackLayout Grid.Row="2">
+                    <Label Text="Sumarme a equipo inscripto" />
+                    <!--inscribirme en un equipo-->
+                    <Grid ColumnDefinitions="*,Auto">
+                        <syncfusion:SfTextInputLayout Grid.Row="1"
+                                                      HeightRequest="85"
+                                                      Hint="Codigo de equipo"
+                                                      FocusedStrokeThickness="1"
+                                                      UnfocusedStrokeThickness="{AppThemeBinding Dark=0, Light=1}"
+                                                      ContainerBackground="White"
+                                                      ContainerType="Outlined">
+                            <!--CONTROL-->
+                            <Entry Text="{Binding PlayerJoinTeamRequest.JoinCode}"
+                                   FontSize="15" />
+                            <!--VISUAL STATE-->
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="Stroke"
+                                                        Value="Black" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState Name="Focused">
+                                            <VisualState.Setters>
+                                                <Setter Property="Stroke"
+                                                        Value="{AppThemeBinding Dark=White, Light=Black}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState Name="Error">
+                                            <VisualState.Setters>
+                                                <Setter Property="Stroke"
+                                                        Value="Red" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+                        </syncfusion:SfTextInputLayout>
+                        <Button BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryLigth}}"
+                                Command="{Binding RegisterMeCommand}"
+                                Grid.Column="1"
+                                ImageSource="{AppThemeBinding Light='add_team_icon_white.png', Dark='add_team_icon_black.png'}"
+                                HeightRequest="50"
+                                Padding="12"
+                                Margin="5,-15,0,0" />
+                    </Grid>
+                </VerticalStackLayout>
+                <Button ImageSource="{AppThemeBinding Dark='add_team_icon_black.png', Light='add_team_icon_white.png'}"
+                        Text="Inscribir a mi equipo"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryDark}, Dark={StaticResource PrimaryLigth}}"
+                        Command="{Binding RegisterMyTeamCommand}"
+                        HeightRequest="50"
+                        Grid.Row="3" />
+                <!--loading-->
+                <Grid Grid.RowSpan="2"
+                      BackgroundColor="#80000000"
+                      HorizontalOptions="Fill"
+                      VerticalOptions="Fill"
+                      IsVisible="{Binding IsBusy}">
+
+                    <!-- Centra cualquier contenido del Grid -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,100"
+                           Text="{Binding LoadingMessage}"
+                           TextColor="White" />
+                    <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Color="White" />
+
+                </Grid>
+                <components:Popup />
+            </Grid>
+        </syncfusion:SfBottomSheet.BottomSheetContent>
+    </syncfusion:SfBottomSheet>
+</ContentPage>

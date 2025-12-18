@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VolleyGo.Views.Components.Header"
+             x:Name="HeaderControl">
+    <Grid BackgroundColor="{StaticResource Primary}"
+          HeightRequest="50">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <HorizontalStackLayout>
+            <Button IsVisible="{Binding ShowBackButton, Source={x:Reference HeaderControl}}"
+                    ImageSource="back_icon_white.png"
+                    HeightRequest="35"
+                    WidthRequest="35"
+                    Padding="12"
+                    Margin="0,0,20,0"
+                    CornerRadius="50"
+                    Command="{Binding GoBackCommand, Source={x:Reference HeaderControl}}" />
+            <Label Text="{Binding Title, Source={x:Reference HeaderControl}}"
+                   IsVisible="{Binding ShowTitle, Source={x:Reference HeaderControl}}"
+                   FontSize="23"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   VerticalTextAlignment="Center" />
+            <Image Source="logo_large.png"
+                   HeightRequest="35"
+                   Aspect="AspectFit"
+                   HorizontalOptions="Start"
+                   IsVisible="{Binding ShowLogo, Source={x:Reference HeaderControl}}" />
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Grid.Column="1"
+                               Padding="5,0"
+                               Spacing="5">
+            <ImageButton Source="logout_icon_white.png"
+                         WidthRequest="40"
+                         HeightRequest="40"
+                         Padding="{OnPlatform Android=10, iOS=8}"
+                         CornerRadius="30"
+                         Command="{Binding LogoutCommand}"
+                         IsVisible="{Binding ShowLogoutButton, Source={x:Reference HeaderControl}}" />
+            <ImageButton Source="cloud_icon_white.png"
+                         WidthRequest="40"
+                         HeightRequest="40"
+                         Padding="8"
+                         CornerRadius="30"
+                         Command="{Binding SaveCommand, Source={x:Reference HeaderControl}}"
+                         IsVisible="{Binding ShowSaveButton, Source={x:Reference HeaderControl}}" />
+        </HorizontalStackLayout>
+    </Grid>
+</ContentView>

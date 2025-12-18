@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:VolleyGo.ViewModels.Organizer"
+             xmlns:components="clr-namespace:VolleyGo.Views.Components"
+             x:Class="VolleyGo.Views.Organizer.CreateChampionshipPage"
+             x:DataType="vm:CreateChampionshipViewModel"
+             Shell.BackgroundColor="{StaticResource Primary}"
+             Title="Nuevo Campeonato">
+    
+    <Shell.TitleView>
+        <components:Header Title="Nuevo Campeonato" />
+    </Shell.TitleView>
+
+    <Grid>
+        <!-- SCROLL VIEW -->
+        <ScrollView>
+            <VerticalStackLayout Spacing="0">
+
+                <!-- HEADER -->
+                <Grid 
+                    RowDefinitions="*,Auto"
+                    HeightRequest="150">
+                    <Image Source="{Binding HeaderImage}" Aspect="AspectFill" />
+                    <Button
+                        ImageSource="edit_icon_white.png"
+                        HeightRequest="20"
+                        WidthRequest="20"
+                        HorizontalOptions="End"
+                        VerticalOptions="End"
+                        Padding="10,7,9,10"
+                        Margin="10"
+                        BackgroundColor="{StaticResource PrimaryLigth}"
+                        Command="{Binding EditHeaderImageCommand}"
+                        />
+                </Grid>
+
+                <!-- FORM -->
+                <components:ChampionshipForm x:Name="CreateChampionshipForm" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- MAPA (NO SCROLL) -->
+        <components:CustomMap 
+            IsVisible="{Binding ShowMap}" 
+            x:Name="ChampionshipMap"
+            LocationSelected="ChampionshipMap_LocationSelected"
+            SetLocation="{Binding Location}"
+            />
+    </Grid>
+
+</ContentPage>

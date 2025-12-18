@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+    xmlns:local="clr-namespace:VolleyGo.Views.Components"
+    x:Class="VolleyGo.Views.Components.CustomMap"
+    BackgroundColor="#80000000">
+    <!-- Fondo negro transparente -->
+
+    <Grid
+        HorizontalOptions="Center"
+        VerticalOptions="Center"
+        Padding="10,50">
+
+        <!-- MODAL -->
+        <Border
+            StrokeThickness="1"
+            BackgroundColor="{AppThemeBinding Light=White, Dark=#1A1A1A}"
+            Padding="0"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            StrokeShape="RoundRectangle 20">
+
+            <Grid RowDefinitions="Auto, Auto, *">
+
+                <!-- 🔽 Close button -->
+                <Grid
+                    ColumnDefinitions="Auto,Auto"
+                    >
+                    <ImageButton
+                        Source="{AppThemeBinding Light='back_icon_black.png',Dark='back_icon_white.png'}"
+                        WidthRequest="20"
+                        HeightRequest="20"
+                        Margin="5,10,20,10"
+                        Padding="13"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        Command="{Binding ToggleShowMapCommand}"
+                        />
+                    <Label
+                        Text="{Binding MapTitle}"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        VerticalTextAlignment="Center"
+                        HorizontalTextAlignment="Center"
+                        FontSize="20"
+                        />
+                </Grid>
+
+                <!-- 🔍 Buscador -->
+                <SearchBar
+                    IsVisible="{Binding ShowMapSearchbar}"
+                    x:Name="SearchLocationBar"
+                    Placeholder="Buscar dirección..."
+                    Grid.Row="1"
+                    Margin="15,0,15,10"
+                    BackgroundColor="{AppThemeBinding Light=#F2F2F2, Dark=#303030}"
+                    TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                    PlaceholderColor="#999"
+                    />
+
+                <!-- 🗺️ Mapa -->
+                <Grid Grid.Row="2">
+
+                    <maps:Map 
+                        x:Name="MainMap"
+                        IsScrollEnabled="{Binding ScrollMapEnabled}"
+                        IsZoomEnabled="True"
+                        IsShowingUser="True"
+                        MapType="Street"
+                        MapClicked="Map_MapClicked"
+                        />
+
+                    <!-- 📍 Pin flotante -->
+                    <Image 
+                        Source="pin_red.png"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        />
+                </Grid>
+
+            </Grid>
+        </Border>
+    </Grid>
+</ContentView>

@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:VolleyGo.ViewModels.Organizer"
+             xmlns:syncfusion="http://schemas.syncfusion.com/maui/toolkit"
+             xmlns:components="clr-namespace:VolleyGo.Views.Components"
+             xmlns:converters="clr-namespace:VolleyGo.Utils.Converters"
+             x:Class="VolleyGo.Views.Organizer.UpdateChampionshipPage"
+             x:DataType="vm:UpdateChampionshipViewModel"
+             Shell.BackgroundColor="{StaticResource Primary}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:FullPathConverter x:Key="FullPathConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Shell.TitleView>
+        <components:Header Title="Editar Campeonato"
+                           ShowSaveButton="True"
+                           SaveCommand="{Binding SubmitCommand}" />
+    </Shell.TitleView>
+
+    <syncfusion:SfPullToRefresh RefreshCommand="{Binding LoadChampionshipCommand}"
+                                RefreshCommandParameter="{Binding ChampionshipId}"
+                                IsRefreshing="{Binding IsDashboardLoading}"
+                                x:Name="championshipPullToRefresh"
+                                PullingThreshold="50"
+                                TransitionMode="Push">
+        <syncfusion:SfPullToRefresh.PullableContent>
+            <Grid RowDefinitions="*, Auto">
+                <ScrollView Grid.RowSpan="2">
+                    <syncfusion:SfTabView TabBarHeight="45"
+                                          TabBarBackground="{StaticResource Primary}"
+                                          IndicatorBackground="{StaticResource PrimaryLigth}"
+                                          IndicatorPlacement="Bottom"
+                                          IndicatorStrokeThickness="5"
+                                          x:Name="TabView">
+                        <syncfusion:SfTabView.Items>
+                            <syncfusion:SfTabItem Header="Administrar"
+                                                  TextColor="White">
+                                <syncfusion:SfTabItem.Content>
+                                    <ScrollView>
+                                        <Grid RowDefinitions="Auto,Auto,Auto">
+                                            <!--header image-->
+                                            <Grid RowDefinitions="*,Auto"
+                                                  HeightRequest="150">
+                                                <Image Source="{Binding HeaderImageStream}"
+                                                       Aspect="AspectFill" />
+                                                <Button ImageSource="edit_icon_white.png"
+                                                        HeightRequest="20"
+                                                        WidthRequest="20"
+                                                        HorizontalOptions="End"
+                                                        VerticalOptions="End"
+                                                        Padding="10,7,9,10"
+                                                        Margin="10"
+                                                        BackgroundColor="{StaticResource PrimaryLigth}"
+                                                        Command="{Binding EditHeaderImageCommand}" />
+                                            </Grid>
+                                            <!--summary section-->
+                                            <Border Grid.Row="1"
+                                                    Stroke="{StaticResource PrimaryDark}"
+                                                    StrokeShape="RoundRectangle 0 0 40 40"
+                                                    BackgroundColor="{StaticResource PrimaryDark}"
+                                                    Padding="30">
+
+                                                <VerticalStackLayout Spacing="25">
+
+                                                    <!-- ===================   HEADER   =================== -->
+                                                    <Grid ColumnDefinitions="Auto,*"
+                                                          ColumnSpacing="20">
+
+                                                        <VerticalStackLayout VerticalOptions="Center">
+                                                            <Label Text="{Binding NewChampionship.Name}"
+                                                                   FontSize="24"
+                                                                   FontAttributes="Bold"
+                                                                   TextColor="White" />
+
+                                                            <Border Padding="10,3"
+                                                                    StrokeShape="RoundRectangle 40"
+                                                                    StrokeThickness="0"
+                                                                    BackgroundColor="{StaticResource PrimaryLigth}"
+                                                                    HorizontalOptions="Start">
+                                                                <Label Text="{Binding SelectedChampionshipStatusObject.Display}"
+                                                                       FontSize="13"
+                                                                       TextColor="Black" />
+                                                            </Border>
+                                                        </VerticalStackLayout>
+                                                    </Grid>
+
+                                                    <!-- ===================   ORGANIZER   =================== -->
+                                                    <Grid ColumnDefinitions="Auto,*"
+                                                          ColumnSpacing="15">
+
+                                                        <Border WidthRequest="70"
+                                                                HeightRequest="70"
+                                                                StrokeShape="RoundRectangle 28"
+                                                                Stroke="White"
+                                                                StrokeThickness="3"
+                                                                BackgroundColor="White"
+                                                                Padding="0">
+                                                            <Image Source="{Binding Organizer.AvatarUrl, Converter={StaticResource FullPathConverter}}"
+                                                                   Aspect="AspectFill" />
+                                                        </Border>
+
+                                                        <VerticalStackLayout Grid.Column="1"
+                                                                             VerticalOptions="Center">
+                                                            <Label Text="Organizador"
+                                                                   FontSize="12"
+                                                                   TextColor="White"
+                                                                   Opacity="0.6" />
+
+                                                            <Label Text="{Binding Organizer.FullName}"
+                                                                   FontSize="17"
+                                                                   FontAttributes="Bold"
+                                                                   TextColor="White" />
+                                                        </VerticalStackLayout>
+                                                    </Grid>
+
+                                                    <!-- ===================   DATOS PRINCIPALES   =================== -->
+                                                    <Grid ColumnDefinitions="*,*"
+                                                          RowDefinitions="Auto,Auto,Auto"
+                                                          ColumnSpacing="25"
+                                                          RowSpacing="20">
+
+                                                        <!-- Tipo -->
+                                                        <VerticalStackLayout>
+                                                            <Label Text="Tipo de Campeonato"
+                                                                   FontSize="12"
+                                                                   TextColor="White"
+                                                                   Opacity="0.6" />
+                                                            <Label Text="{Binding SelectedChampionshipTypeObject.Display}"
+                                                                   FontSize="16"
+                                                                   FontAttributes="Bold"
+                                                                   TextColor="White" />
+                                                        </VerticalStackLayout>
+
+                                                        <!-- Max Equipos -->
+                                                        <VerticalStackLayout Grid.Column="1">
+                                                            <Label Text="Máximo de Equipos"
+                                                                   FontSize="12"
+                                                                   TextColor="White"
+                                                                   Opacity="0.6" />
+                                                            <Label Text="{Binding NewChampionship.MaxTeams}"
+                                                                   FontSize="16"
+                                                                   FontAttributes="Bold"
+                                                                   TextColor="White" />
+                                                        </VerticalStackLayout>
+
+                                                        <!-- Fecha Inicio -->
+                                                        <VerticalStackLayout Grid.Row="1">
+                                                            <Label Text="Fecha de Inicio"
+                                                                   FontSize="12"
+                                                                   TextColor="White"
+                                                                   Opacity="0.6" />
+                                                            <Label Text="{Binding StartDate, StringFormat='{0:dd/MM/yyyy}'}"
+                                                                   FontSize="16"
+                                                                   FontAttributes="Bold"
+                                                                   TextColor="White" />
+                                                            <Label Text="{Binding StartDate, StringFormat='a las {0:hh:mm}'}"
+                                                                   FontSize="16"
+                                                                   FontAttributes="Bold"
+                                                                   TextColor="White" />
+                                                        </VerticalStackLayout>
+
+                                                        <!-- Fecha Fin -->
+                                                        <VerticalStackLayout Grid.Row="1"
+                                                                             Grid.Column="1">
+                                                            <Label Text="Fecha de Finalización"
+                                                                   FontSize="12"
+                                                                   TextColor="White"
+                                                                   Opacity="0.6" />
+                                                            <Label Text="{Binding EndDate, StringFormat='{0:dd/MM/yyyy}'}"
+                                                                   FontSize="16"
+                                                                   FontAttributes="Bold"
+                                                                   TextColor="White" />
+                                                            <Label Text="{Binding EndDate, StringFormat='a las {0:hh:mm}'}"
+                                                                   FontSize="16"
+                                                                   FontAttributes="Bold"
+                                                                   TextColor="White" />
+                                                        </VerticalStackLayout>
+
+                                                        <!-- Descripción -->
+                                                        <VerticalStackLayout Grid.Row="2"
+                                                                             Grid.ColumnSpan="2">
+                                                            <Label Text="Descripción"
+                                                                   FontSize="12"
+                                                                   TextColor="White"
+                                                                   Opacity="0.6" />
+                                                            <Label Text="{Binding NewChampionship.Description}"
+                                                                   FontSize="16"
+                                                                   TextColor="White" />
+                                                        </VerticalStackLayout>
+                                                    </Grid>
+
+                                                </VerticalStackLayout>
+
+                                            </Border>
+                                            <!--expanders section-->
+                                            <ScrollView Grid.Row="2" Margin="0,20,0,0">
+                                                <VerticalStackLayout>
+                                                    <!--expander general-->
+                                                    <Border Stroke="{StaticResource Gray200}"
+                                                            VerticalOptions="Start"
+                                                            Margin="10, 5"
+                                                            BackgroundColor="{Binding Path=HeaderIconColor,Source={x:Reference expanderGeneralControlPanel}}"
+                                                            StrokeShape="RoundRectangle 10">
+                                                        <syncfusion:SfExpander x:Name="expanderGeneralControlPanel"
+                                                                               HeaderIconPosition="None"
+                                                                               AnimationDuration="200"
+                                                                               IsExpanded="True">
+                                                            <!--HEADER-->
+                                                            <syncfusion:SfExpander.Header>
+                                                                <Grid Padding="10,0"
+                                                                      BackgroundColor="{Binding Path=HeaderIconColor,Source={x:Reference expanderGeneralControlPanel}}"
+                                                                      RowDefinitions="48"
+                                                                      ColumnDefinitions="Auto,*">
+                                                                    <Image Source="{AppThemeBinding Light='control_panel_icon_black.png', Dark='control_panel_icon_white.png'}"
+                                                                           HeightRequest="20"
+                                                                           WidthRequest="20"
+                                                                           Margin="10,0" />
+                                                                    <Label CharacterSpacing="0.25"
+                                                                           FontFamily="Roboto-Regular"
+                                                                           FontAttributes="Bold"
+                                                                           Text="GENERAL"
+                                                                           FontSize="16"
+                                                                           Grid.Column="1"
+                                                                           VerticalOptions="CenterAndExpand" />
+                                                                </Grid>
+                                                            </syncfusion:SfExpander.Header>
+                                                            <!--CONTENT-->
+                                                            <syncfusion:SfExpander.Content>
+                                                                <Grid RowDefinitions="Auto,*"
+                                                                      Padding="10">
+                                                                    <Label Padding="0,10"
+                                                                           Text="Cambiar estado" />
+                                                                    <syncfusion:SfTextInputLayout Grid.Row="1"
+                                                                                                  HeightRequest="85"
+                                                                                                  Hint="Estado"
+                                                                                                  FocusedStrokeThickness="1"
+                                                                                                  UnfocusedStrokeThickness="{AppThemeBinding Dark=0, Light=1}"
+                                                                                                  ContainerBackground="White"
+                                                                                                  ContainerType="Outlined">
+                                                                        <!--CONTROL-->
+                                                                        <Picker ItemsSource="{Binding ChampionshipStatus}"
+                                                                                ItemDisplayBinding="{Binding Display}"
+                                                                                SelectedItem="{Binding SelectedChampionshipStatusObject}"
+                                                                                FontSize="15"
+                                                                                TextColor="Black" />
+                                                                        <!--VISUAL STATE-->
+                                                                        <VisualStateManager.VisualStateGroups>
+                                                                            <VisualStateGroupList>
+                                                                                <VisualStateGroup x:Name="CommonStates">
+                                                                                    <VisualState Name="Normal">
+                                                                                        <VisualState.Setters>
+                                                                                            <Setter Property="Stroke"
+                                                                                                    Value="Black" />
+                                                                                        </VisualState.Setters>
+                                                                                    </VisualState>
+                                                                                    <VisualState Name="Focused">
+                                                                                        <VisualState.Setters>
+                                                                                            <Setter Property="Stroke"
+                                                                                                    Value="White" />
+                                                                                        </VisualState.Setters>
+                                                                                    </VisualState>
+                                                                                    <VisualState Name="Error">
+                                                                                        <VisualState.Setters>
+                                                                                            <Setter Property="Stroke"
+                                                                                                    Value="Red" />
+                                                                                        </VisualState.Setters>
+                                                                                    </VisualState>
+                                                                                </VisualStateGroup>
+                                                                            </VisualStateGroupList>
+                                                                        </VisualStateManager.VisualStateGroups>
+                                                                    </syncfusion:SfTextInputLayout>
+                                                                </Grid>
+                                                            </syncfusion:SfExpander.Content>
+                                                            <!--VISUAL STATE-->
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup>
+                                                                        <VisualState Name="Expanded">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="HeaderBackground"
+                                                                                        Value="white" />
+                                                                                <Setter Property="HeaderIconColor"
+                                                                                        Value="{AppThemeBinding Light=White, Dark={StaticResource Key='PrimaryLigth'}}" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState Name="Collapsed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="HeaderBackground"
+                                                                                        Value="#141C1B1F" />
+                                                                                <Setter Property="HeaderIconColor"
+                                                                                        Value="{AppThemeBinding Light={StaticResource Key='PrimaryLigth'}, Dark={StaticResource Key='PrimaryDark'}}" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="HeaderBackground"
+                                                                                        Value="#ded6d5" />
+                                                                                <Setter Property="HeaderIconColor"
+                                                                                        Value="{AppThemeBinding Light=White, Dark=Black}" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="HeaderBackground"
+                                                                                        Value="#faf8f7" />
+                                                                                <Setter Property="HeaderIconColor"
+                                                                                        Value="{AppThemeBinding Light=White, Dark=Black}" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                        </syncfusion:SfExpander>
+                                                    </Border>
+                                                    <!--expander crear equipo-->
+                                                    <Border Stroke="{StaticResource Gray200}"
+                                                            VerticalOptions="Start"
+                                                            Margin="10, 0"
+                                                            BackgroundColor="{Binding Path=HeaderIconColor,Source={x:Reference expanderGeneralControlPanel}}"
+                                                            StrokeShape="RoundRectangle 10">
+                                                        <syncfusion:SfExpander x:Name="expanderManageTeams"
+                                                                               HeaderIconPosition="None"
+                                                                               AnimationDuration="200">
+                                                            <!--HEADER-->
+                                                            <syncfusion:SfExpander.Header>
+                                                                <Grid Padding="10,0"
+                                                                      BackgroundColor="{Binding Path=HeaderIconColor,Source={x:Reference expanderManageTeams}}"
+                                                                      RowDefinitions="48"
+                                                                      ColumnDefinitions="Auto,*">
+                                                                    <Image Source="{AppThemeBinding Light='control_panel_icon_black.png', Dark='control_panel_icon_white.png'}"
+                                                                           HeightRequest="20"
+                                                                           WidthRequest="20"
+                                                                           Margin="10,0" />
+                                                                    <Label CharacterSpacing="0.25"
+                                                                           FontFamily="Roboto-Regular"
+                                                                           FontAttributes="Bold"
+                                                                           Text="GESTIONAR EQUIPOS"
+                                                                           FontSize="16"
+                                                                           Grid.Column="1"
+                                                                           VerticalOptions="CenterAndExpand" />
+                                                                </Grid>
+                                                            </syncfusion:SfExpander.Header>
+                                                            <!--CONTENT-->
+                                                            <syncfusion:SfExpander.Content>
+                                                                <Grid RowDefinitions="Auto,*,*"
+                                                                      RowSpacing="10"
+                                                                      Padding="10">
+                                                                    <Label Padding="0,10"
+                                                                           Text="Eliminar equipo" />
+                                                                    <!--eliminar equipo-->
+                                                                    <Grid Grid.Row="1"
+                                                                          ColumnDefinitions="*,Auto">
+                                                                        <syncfusion:SfTextInputLayout Grid.Row="1"
+                                                                                                      HeightRequest="85"
+                                                                                                      Hint="Codigo de equipo"
+                                                                                                      FocusedStrokeThickness="1"
+                                                                                                      UnfocusedStrokeThickness="{AppThemeBinding Dark=0, Light=1}"
+                                                                                                      ContainerBackground="White"
+                                                                                                      ContainerType="Outlined">
+                                                                            <!--CONTROL-->
+                                                                            <Entry Text="{Binding ToRemoveTeamCode}"
+                                                                                   FontSize="15" />
+                                                                            <!--VISUAL STATE-->
+                                                                            <VisualStateManager.VisualStateGroups>
+                                                                                <VisualStateGroupList>
+                                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                                        <VisualState Name="Normal">
+                                                                                            <VisualState.Setters>
+                                                                                                <Setter Property="Stroke"
+                                                                                                        Value="Black" />
+                                                                                            </VisualState.Setters>
+                                                                                        </VisualState>
+                                                                                        <VisualState Name="Focused">
+                                                                                            <VisualState.Setters>
+                                                                                                <Setter Property="Stroke"
+                                                                                                        Value="White" />
+                                                                                            </VisualState.Setters>
+                                                                                        </VisualState>
+                                                                                        <VisualState Name="Error">
+                                                                                            <VisualState.Setters>
+                                                                                                <Setter Property="Stroke"
+                                                                                                        Value="Red" />
+                                                                                            </VisualState.Setters>
+                                                                                        </VisualState>
+                                                                                    </VisualStateGroup>
+                                                                                </VisualStateGroupList>
+                                                                            </VisualStateManager.VisualStateGroups>
+                                                                        </syncfusion:SfTextInputLayout>
+                                                                        <Button BackgroundColor="Red"
+                                                                                Grid.Column="1"
+                                                                                ImageSource="trash_icon_white.png"
+                                                                                HeightRequest="50"
+                                                                                Padding="12"
+                                                                                Margin="5,-15,0,0" />
+                                                                    </Grid>
+                                                                    <Button ImageSource="add_team_icon_white.png"
+                                                                            Text="Proximamente crear equipo"
+                                                                            IsEnabled="False"
+                                                                            HeightRequest="50"
+                                                                            Grid.Row="2" />
+                                                                </Grid>
+                                                            </syncfusion:SfExpander.Content>
+                                                            <!--VISUAL STATE-->
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup>
+                                                                        <VisualState Name="Expanded">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="HeaderBackground"
+                                                                                        Value="white" />
+                                                                                <Setter Property="HeaderIconColor"
+                                                                                        Value="{AppThemeBinding Light=White, Dark={StaticResource Key='Gray500'}}" />
+                                                                                <Setter Property="BackgroundColor"
+                                                                                        Value="{AppThemeBinding Light=White, Dark={StaticResource Key='Gray500'}}" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState Name="Collapsed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="HeaderBackground"
+                                                                                        Value="#141C1B1F" />
+                                                                                <Setter Property="HeaderIconColor"
+                                                                                        Value="{AppThemeBinding Light={StaticResource Key='Grey100'}, Dark={StaticResource Key='Gray500'}}" />
+                                                                                <Setter Property="BackgroundColor"
+                                                                                        Value="{AppThemeBinding Light=White, Dark={StaticResource Key='Gray500'}}" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="HeaderBackground"
+                                                                                        Value="#ded6d5" />
+                                                                                <Setter Property="HeaderIconColor"
+                                                                                        Value="{AppThemeBinding Light=White, Dark=Black}" />
+                                                                                <Setter Property="BackgroundColor"
+                                                                                        Value="{AppThemeBinding Light=White, Dark={StaticResource Key='Gray500'}}" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="HeaderBackground"
+                                                                                        Value="#faf8f7" />
+                                                                                <Setter Property="HeaderIconColor"
+                                                                                        Value="{AppThemeBinding Light=White, Dark=Black}" />
+                                                                                <Setter Property="BackgroundColor"
+                                                                                        Value="{AppThemeBinding Light=White, Dark={StaticResource Key='Gray500'}}" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                        </syncfusion:SfExpander>
+                                                    </Border>
+                                                </VerticalStackLayout>
+                                            </ScrollView>
+                                        </Grid>
+                                    </ScrollView>
+                                </syncfusion:SfTabItem.Content>
+                            </syncfusion:SfTabItem>
+                            <syncfusion:SfTabItem Header="Editar"
+                                                  TextColor="White">
+                                <syncfusion:SfTabItem.Content>
+                                    <Grid>
+                                        <!-- CONTENT WITH SCROLL -->
+                                        <ScrollView>
+                                            <VerticalStackLayout Spacing="20"
+                                                                 Padding="0,0,0,20">
+
+                                                <components:ChampionshipForm x:Name="EditChampionshipForm" />
+
+                                            </VerticalStackLayout>
+                                        </ScrollView>
+
+                                        <!-- MAP (NON-SCROLLABLE) -->
+                                        <components:CustomMap IsVisible="{Binding ShowMap}"
+                                                              x:Name="ChampionshipMap"
+                                                              LocationSelected="ChampionshipMap_LocationSelected"
+                                                              SetLocation="{Binding Location}" />
+                                    </Grid>
+                                </syncfusion:SfTabItem.Content>
+                            </syncfusion:SfTabItem>
+                        </syncfusion:SfTabView.Items>
+                    </syncfusion:SfTabView>
+                </ScrollView>
+            </Grid>
+        </syncfusion:SfPullToRefresh.PullableContent>
+    </syncfusion:SfPullToRefresh>
+</ContentPage>

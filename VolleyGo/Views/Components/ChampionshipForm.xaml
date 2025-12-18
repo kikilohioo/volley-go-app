@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="http://schemas.syncfusion.com/maui/toolkit"
+             xmlns:components="clr-namespace:VolleyGo.Views.Components"
+             xmlns:models="clr-namespace:VolleyGo.Models.API.Championship"
+             x:Class="VolleyGo.Views.Components.ChampionshipForm">
+
+    <Grid RowDefinitions="*">
+
+        <ScrollView>
+            <VerticalStackLayout
+                Padding="20"
+                Spacing="20">
+
+                <!-- Título -->
+                <Label Text="{Binding FormTitle}"
+                       FontSize="30"
+                       x:Name="lblTitle"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       Margin="0,10" />
+
+                <!-- Nombre -->
+                <syncfusion:SfTextInputLayout 
+                    Hint="Nombre del campeonato"
+                    HelperText="Ingresa el nombre"
+                    ContainerType="Outlined">
+                    <Entry Text="{Binding NewChampionship.Name}"
+                           FontAttributes="Bold"
+                           FontSize="15"
+                           TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                </syncfusion:SfTextInputLayout>
+
+                <!-- Tipo -->
+                <syncfusion:SfTextInputLayout 
+                    HeightRequest="85"
+                    Hint="Tipo"
+                    ContainerType="Outlined">
+                    <Picker
+                        ItemsSource="{Binding ChampionshipTypes}"
+                        ItemDisplayBinding="{Binding Display}"
+                        SelectedItem="{Binding SelectedChampionshipTypeObject}"
+                        FontSize="15"
+                        TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                </syncfusion:SfTextInputLayout>
+
+                <!-- Ubicación -->
+                <!-- Campo de ubicación con estilo dinámico -->
+                <Grid RowDefinitions="Auto, Auto">
+
+                    <!-- 📝 Cuando NO hay ubicación seleccionada -->
+                    <Button
+                        Text="Seleccionar Ubicación"
+                        IsVisible="{Binding LocationNotSelected}"
+                        Command="{Binding ToggleShowMapCommand}"
+                        />
+                    <!-- 📍 Cuando SÍ hay ubicación seleccionada -->
+                    <Border 
+                        IsVisible="{Binding LocationSelected}"
+                        BackgroundColor="{AppThemeBinding Light=#EEEEEE, Dark=#333333}"
+                        Stroke="Azure"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="15"
+                        Margin="0,5"
+                        Grid.Row="1"
+                        >
+
+                        <Grid 
+                            VerticalOptions="Center"
+                            ColumnDefinitions="Auto,*,Auto"
+                            >
+                            <!-- Icono -->
+                            <Image 
+                                Source="location_icon_white.png"
+                                WidthRequest="26"
+                                Margin="5,0,20,0"
+                                HeightRequest="26"/>
+
+                            <!-- Texto -->
+                            <VerticalStackLayout
+                                Grid.Column="1"
+                                Padding="0,0,10,0"
+                                >
+                                <Label Text="Ubicación seleccionada"
+                                   FontAttributes="Bold"
+                                   FontSize="15"/>
+
+                                <Label Text="{Binding LocationString}"
+                                   FontSize="13"
+                                   LineBreakMode="TailTruncation"
+                                   Opacity="0.7"/>
+                            </VerticalStackLayout>
+
+                            <Button 
+                                ImageSource="edit_icon_white.png"
+                                Grid.Column="2"
+                                WidthRequest="40"
+                                HeightRequest="40"
+                                CornerRadius="10"
+                                Padding="10"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryLigth}, Dark=#555555}"
+                                Command="{Binding ToggleShowMapCommand}"
+                                HorizontalOptions="End"/>
+
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Grid
+                    ColumnDefinitions="*,*,*"
+                    ColumnSpacing="5"
+                    >
+                    <!-- Sets -->
+                    <syncfusion:SfTextInputLayout 
+                        
+                    Hint="Sets para ganar"
+                    ContainerType="Outlined">
+                        <Entry Text="{Binding NewChampionship.SetsToWin}"
+                           Keyboard="Numeric"
+                           FontSize="15"
+                           TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                    </syncfusion:SfTextInputLayout>
+
+                    <!-- Puntos por set -->
+                    <syncfusion:SfTextInputLayout 
+                        Grid.Column="1"
+                        Hint="Puntos por set"
+                        ContainerType="Outlined">
+                        <Entry Text="{Binding NewChampionship.PointsPerSet}"
+                           Keyboard="Numeric"
+                           FontSize="15"
+                           TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                    </syncfusion:SfTextInputLayout>
+
+                    <!-- Máx equipos -->
+                    <syncfusion:SfTextInputLayout 
+                        Grid.Column="2"
+                    Hint="Máx. Equipos"
+                    ContainerType="Outlined">
+                        <Entry Text="{Binding NewChampionship.MaxTeams}"
+                           Keyboard="Numeric"
+                           FontSize="15"
+                           TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                    </syncfusion:SfTextInputLayout>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*">
+
+                    <!-- Fecha + hora inicio -->
+                    <VerticalStackLayout>
+                        <Label Text="Inicio" FontAttributes="Bold" FontSize="16" />
+
+                        <!-- Fecha -->
+                        <DatePicker Date="{Binding StartDate}" />
+
+                        <!-- Hora -->
+                        <TimePicker Time="{Binding StartTime}" />
+                    </VerticalStackLayout>
+
+                    <!-- Fecha + hora fin -->
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Finalización" FontAttributes="Bold" FontSize="16" />
+
+                        <DatePicker Date="{Binding EndDate}" />
+                        <TimePicker Time="{Binding EndTime}" />
+                    </VerticalStackLayout>
+
+                </Grid>
+
+                <!-- precio por jugador -->
+                <syncfusion:SfTextInputLayout 
+                    Hint="$ Precio / Jugador"
+                    ContainerType="Outlined">
+                    <Entry 
+                        Text="{Binding NewChampionship.PlayerCost, StringFormat='$ {0:0}'}"
+                        VerticalTextAlignment="Start"
+                        TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                </syncfusion:SfTextInputLayout>
+
+                <!-- Descripción -->
+                <syncfusion:SfTextInputLayout 
+                    Hint="Descripción"
+                    ContainerType="Outlined">
+                    <Editor Text="{Binding NewChampionship.Description}"
+                            VerticalTextAlignment="Start"
+                            HeightRequest="100"
+                            TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                </syncfusion:SfTextInputLayout>
+
+                <!-- Botón -->
+                <syncfusion:SfButton 
+                    Text="{Binding SubmitButtonText}"
+                    Command="{Binding SubmitCommand}"
+                    Margin="0,20,0,20"
+                    MinimumHeightRequest="50"
+                    CornerRadius="10"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    Background="{StaticResource Primary}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Popup -->
+        <components:Popup />
+
+        <!-- Loading -->
+        <Grid
+            Grid.RowSpan="2"
+            BackgroundColor="#80000000"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"
+            IsVisible="{Binding IsBusy}">
+            <ActivityIndicator
+                IsRunning="True"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Color="White" />
+        </Grid>
+
+    </Grid>
+</ContentView>

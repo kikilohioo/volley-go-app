@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="http://schemas.syncfusion.com/maui/toolkit"
+             xmlns:components="clr-namespace:VolleyGo.Views.Components"
+             xmlns:models="clr-namespace:VolleyGo.Models.Internal"
+             xmlns:droid="clr-namespace:CommunityToolkit.Maui.PlatformConfiguration.AndroidSpecific;assembly=CommunityToolkit.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             droid:NavigationBar.Color="{StaticResource Primary}"
+             Shell.BackgroundColor="{StaticResource Primary}"
+             Shell.TitleColor="White"
+             Title="Crea tu usuario"
+             droid:NavigationBar.Style="LightContent"
+             xmlns:vm="clr-namespace:VolleyGo.ViewModels"
+             x:DataType="vm:RegisterViewModel"
+             x:Class="VolleyGo.Views.RegisterPage">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource Primary}" />
+    </ContentPage.Behaviors>
+    <Grid RowDefinitions="Auto,*">
+        <ScrollView
+            Grid.Row="1"
+            >
+            <Grid
+                RowDefinitions="*,*,*,*"
+                VerticalOptions="Start"
+                >
+                <!--register message-->
+                <Label
+                    Text="Registrate para usar Volley Go!"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    Margin="20"
+                    FontSize="30"
+                    FontAttributes="Bold"
+                    />
+                <!--register form-->
+                <VerticalStackLayout
+                    Grid.Row="2"
+                    Spacing="20"
+                    Margin="0,0,0,20"
+                    Padding="20,0,20,0"
+                    >
+                    <!-- email -->
+                    <syncfusion:SfTextInputLayout 
+                        Hint="Email" 
+                        HelperText="Ingresa tu email"
+                        ContainerType="Outlined"
+                        >
+                        <syncfusion:SfTextInputLayout.HintLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}"/>
+                        </syncfusion:SfTextInputLayout.HintLabelStyle>
+                        <syncfusion:SfTextInputLayout.HelperLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark={StaticResource Gray400}, Light=Black}"/>
+                        </syncfusion:SfTextInputLayout.HelperLabelStyle>
+                        <syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}"/>
+                        </syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                        <Entry 
+                            x:Name="inputEmail"
+                            Text="{Binding Email}"
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            TextColor="{AppThemeBinding Dark=White, Light=Black}"
+                            Keyboard="Email"
+                            IsPassword="False"
+                            />
+                    </syncfusion:SfTextInputLayout>
+                    <!-- nombre -->
+                    <syncfusion:SfTextInputLayout 
+                        Hint="Nombre" 
+                        HelperText="Ingresa tu nombre"
+                        ContainerType="Outlined"
+                        >
+                        <syncfusion:SfTextInputLayout.HintLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}"/>
+                        </syncfusion:SfTextInputLayout.HintLabelStyle>
+                        <syncfusion:SfTextInputLayout.HelperLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark={StaticResource Gray400}, Light=Black}"/>
+                        </syncfusion:SfTextInputLayout.HelperLabelStyle>
+                        <syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}"/>
+                        </syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                        <Entry 
+                            x:Name="inputFullName"
+                            Text="{Binding FullName}"
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            TextColor="{AppThemeBinding Dark=White, Light=Black}"
+                            IsPassword="False"
+                            />
+                    </syncfusion:SfTextInputLayout>
+                    <!-- contraseña -->
+                    <syncfusion:SfTextInputLayout 
+                        Hint="Contraseña" 
+                        HelperText="Ingresa tu contraseña"
+                        EnablePasswordVisibilityToggle="true"
+                        ContainerType="Outlined"
+                        >
+                        <syncfusion:SfTextInputLayout.HintLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}"/>
+                        </syncfusion:SfTextInputLayout.HintLabelStyle>
+                        <syncfusion:SfTextInputLayout.HelperLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark={StaticResource Gray400}, Light=Black}"/>
+                        </syncfusion:SfTextInputLayout.HelperLabelStyle>
+                        <syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}"/>
+                        </syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                        <Entry 
+                            x:Name="inputPassword"
+                            Text="{Binding Password}"
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            TextColor="{AppThemeBinding Dark=White, Light=Black}"
+                            />
+                    </syncfusion:SfTextInputLayout>
+                    <!-- repetir contraseña -->
+                    <syncfusion:SfTextInputLayout 
+                        Hint="Repetir Contraseña" 
+                        HelperText="Ingresa nuevamente tu contraseña"
+                        EnablePasswordVisibilityToggle="true"
+                        ContainerType="Outlined"
+                        >
+                        <syncfusion:SfTextInputLayout.HintLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}"/>
+                        </syncfusion:SfTextInputLayout.HintLabelStyle>
+                        <syncfusion:SfTextInputLayout.HelperLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark={StaticResource Gray400}, Light=Black}"/>
+                        </syncfusion:SfTextInputLayout.HelperLabelStyle>
+                        <syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}"/>
+                        </syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                        <Entry 
+                            x:Name="inputRepeatPassword"
+                            Text="{Binding RepeatPassword}"
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            TextColor="{AppThemeBinding Dark=White, Light=Black}"
+                            />
+                    </syncfusion:SfTextInputLayout>
+                    <!-- boton de registrarme -->
+                    <syncfusion:SfButton 
+                        x:Name="loginButton"
+                        Margin="0,20,0,20"
+                        Text="Registrarme" 
+                        MinimumHeightRequest="50"
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        CornerRadius="10"
+                        Command="{Binding RegisterCommand}"
+                        Background="{StaticResource Primary}"
+                        >
+                    </syncfusion:SfButton>
+                </VerticalStackLayout>
+                <!--copyright label-->
+                <VerticalStackLayout
+                    Grid.Row="3"
+                    >
+                    <Label
+                        Text="Volley Go! © all rights reserved ahre"
+                        HorizontalTextAlignment="Center"
+                        />
+                </VerticalStackLayout>
+            </Grid>
+        </ScrollView>
+        <!--esto se importa solo asi y luego los datos los manipulamos en el view model-->
+        <components:Popup />
+        <!--loading-->
+        <Grid
+            Grid.RowSpan="2"
+            BackgroundColor="#80000000"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"
+            IsVisible="{Binding IsBusy}">
+
+            <!-- Centra cualquier contenido del Grid -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ActivityIndicator
+                IsRunning="True"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Color="White" />
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="VolleyGo.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:VolleyGo.Views"
+    xmlns:components="clr-namespace:VolleyGo.Views.Components"
+    xmlns:pw="clr-namespace:VolleyGo.Views.Player"
+    xmlns:ow="clr-namespace:VolleyGo.Views.Organizer"
+    Shell.ForegroundColor="White"
+    FlyoutBackgroundColor="{AppThemeBinding Dark={StaticResource Gray900}, Light=White}"
+    Title="VolleyGo">
+    <Shell.FlyoutHeader>
+        <Grid 
+            BackgroundColor="White"
+            HeightRequest="200">
+            <Image
+                x:Name="ImageBack"
+                Aspect="AspectFill"
+                Opacity="0.8"
+                />
+            <Image
+                x:Name="ImageFront"
+                />
+            <Border
+                BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray500}}"
+                StrokeShape="RoundRectangle 50"
+                Stroke="Transparent"
+                HeightRequest="50"
+                VerticalOptions="End"
+                HorizontalOptions="Start"
+                Margin="10"
+                >
+                <HorizontalStackLayout>
+                    <Border
+                        StrokeShape="RoundRectangle 50"
+                        HorizontalOptions="Start"
+                        Margin="-2,0,0,0"
+                        HeightRequest="50"
+                        WidthRequest="50"
+                        >
+                        <Image
+                            x:Name="ProfilePicture"
+                            Aspect="AspectFill"
+                            />
+                    </Border>
+                    <Label
+                        x:Name="fullName"
+                        VerticalOptions="Center"
+                        Padding="10,0,15,0"
+                        FontAttributes="Bold"
+                        />
+                    <Button
+                        x:Name="SettingsButton"
+                        Clicked="SettingsButton_Clicked"
+                        ImageSource="{AppThemeBinding Dark='edit_icon_white.png', Light='edit_icon_black.png'}"
+                        CornerRadius="10"
+                        Padding="10,0,10,5"
+                        WidthRequest="38"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"
+                        />
+                </HorizontalStackLayout>
+            </Border>
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <ShellContent
+        Title="LoadingPage"
+        ContentTemplate="{DataTemplate views:LoadingPage}"
+        FlyoutItemIsVisible="False"
+        Route="LoadingPage" />
+
+    <ShellContent
+        Title="LoginPage"
+        FlyoutItemIsVisible="False"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="LoginPage" />
+
+    <ShellContent
+        x:Name="PlayerHomeItem"
+        Title="HOME"
+        Icon="{AppThemeBinding Dark='home_icon_white.png', Light='home_icon_black.png'}"
+        ContentTemplate="{DataTemplate pw:HomePlayerPage}"
+        Route="HomePlayerPage" />
+
+    <ShellContent
+        x:Name="OrganizerHomeItem"
+        Title="HOME"
+        Icon="{AppThemeBinding Dark='home_icon_white.png', Light='home_icon_black.png'}"
+        ContentTemplate="{DataTemplate ow:HomeOrganizerPage}"
+        Route="HomeOrganizerPage" />
+
+    <Shell.FlyoutFooter>
+        <components:SwitchUserRole />
+    </Shell.FlyoutFooter>
+
+</Shell>

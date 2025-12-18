@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="http://schemas.syncfusion.com/maui/toolkit"
+             xmlns:droid="clr-namespace:CommunityToolkit.Maui.PlatformConfiguration.AndroidSpecific;assembly=CommunityToolkit.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             droid:NavigationBar.Color="{StaticResource Primary}"
+             droid:NavigationBar.Style="LightContent"
+             xmlns:vm="clr-namespace:VolleyGo.ViewModels"
+             x:DataType="vm:LoadingViewModel"
+             x:Class="VolleyGo.Views.LoadingPage"
+             Shell.NavBarIsVisible="False"
+             Shell.FlyoutBehavior="Disabled"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource Primary}, Light=White}"
+             Title="LoadingPage">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource Primary}" />
+    </ContentPage.Behaviors>
+    <VerticalStackLayout
+        HorizontalOptions="Center"
+        VerticalOptions="Center"
+        >
+        <Image
+            HeightRequest="250"
+            WidthRequest="250"
+            Source="logo.png"
+            />
+        <Label
+            Text="{Binding LoadingText}"
+            TextColor="{AppThemeBinding Dark=White, Light={StaticResource Primary}}"
+            FontSize="20"
+            HorizontalTextAlignment="Center"
+            />
+    </VerticalStackLayout>
+</ContentPage>

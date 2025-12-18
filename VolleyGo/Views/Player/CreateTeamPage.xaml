@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:VolleyGo.ViewModels.Player"
+             xmlns:components="clr-namespace:VolleyGo.Views.Components"
+             x:Class="VolleyGo.Views.Player.CreateTeamPage"
+             x:DataType="vm:CreateTeamViewModel"
+             Shell.FlyoutBehavior="Disabled"
+             Shell.BackgroundColor="{StaticResource Primary}"
+             Title="Inscribir Equipo">
+
+    <Shell.TitleView>
+        <components:Header Title="Inscribir Equipo" />
+    </Shell.TitleView>
+
+    <Grid>
+        <!-- SCROLL VIEW -->
+        <ScrollView>
+            <VerticalStackLayout Spacing="0">
+
+                <!-- FORM -->
+                <components:TeamForm x:Name="CreateTeamForm" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+        <!--loading-->
+        <Grid Grid.RowSpan="2"
+              BackgroundColor="#80000000"
+              HorizontalOptions="Fill"
+              VerticalOptions="Fill"
+              IsVisible="{Binding IsBusy}">
+
+            <!-- Centra cualquier contenido del Grid -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,100"
+                   Text="{Binding LoadingMessage}"
+                   TextColor="White" />
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Color="White" />
+
+        </Grid>
+        <components:Popup />
+    </Grid>
+
+</ContentPage>

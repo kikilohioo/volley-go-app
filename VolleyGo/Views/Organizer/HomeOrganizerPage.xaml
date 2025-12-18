@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VolleyGo.Views.Organizer.HomeOrganizerPage"
+             xmlns:vm="clr-namespace:VolleyGo.ViewModels.Organizer"
+             xmlns:components="clr-namespace:VolleyGo.Views.Components"
+             xmlns:converters="clr-namespace:VolleyGo.Utils.Converters"
+             xmlns:models="clr-namespace:VolleyGo.Models.API.Championship"
+             x:DataType="vm:HomeOrganizerViewModel"
+             xmlns:PullToRefreshControl="http://schemas.syncfusion.com/maui/toolkit"
+             Shell.BackgroundColor="{StaticResource Primary}"
+             Title="HomeOrganizerPage"
+             x:Name="Page">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:FullPathConverter x:Key="FullPathConverter" />
+            <converters:ChampionshipStatusToTextConverter x:Key="ChampionshipStatusToTextConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Shell.TitleView>
+        <components:Header ShowLogoutButton="True" />
+    </Shell.TitleView>
+    <PullToRefreshControl:SfPullToRefresh RefreshCommand="{Binding InitializeCommand}"
+                                          IsRefreshing="{Binding IsDashboardLoading}"
+                                          x:Name="pullToRefresh"
+                                          PullingThreshold="50"
+                                          TransitionMode="Push">
+        <PullToRefreshControl:SfPullToRefresh.PullableContent>
+            <Grid RowDefinitions="*, Auto">
+                <ScrollView Grid.RowSpan="2">
+                    <VerticalStackLayout Padding="20,20,20,100"
+                                         Spacing="20">
+
+                        <Label Text="Dashboard de Campeonatos"
+                               FontSize="28"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center" />
+
+                        <!--resumen-->
+                        <Grid ColumnDefinitions="*,*,*"
+                              RowDefinitions="Auto"
+                              ColumnSpacing="10">
+
+                            <Border BackgroundColor="#1CC88A"
+                                    StrokeShape="RoundRectangle 12"
+                                    StrokeThickness="0"
+                                    Padding="15"
+                                    Grid.Column="0">
+                                <VerticalStackLayout>
+                                    <Label Text="Activos"
+                                           FontSize="14"
+                                           TextColor="White" />
+                                    <Label Text="{Binding Dashboard.Stats.Active}"
+                                           FontSize="26"
+                                           FontAttributes="Bold"
+                                           TextColor="White" />
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border BackgroundColor="{StaticResource PrimaryLigth}"
+                                    StrokeShape="RoundRectangle 12"
+                                    StrokeThickness="0"
+                                    Padding="15"
+                                    Grid.Column="1">
+                                <VerticalStackLayout>
+                                    <Label Text="Realizados"
+                                           FontSize="14"
+                                           TextColor="Black" />
+                                    <Label Text="{Binding Dashboard.Stats.Finished}"
+                                           FontSize="26"
+                                           FontAttributes="Bold"
+                                           TextColor="White" />
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border BackgroundColor="#F6C23E"
+                                    StrokeShape="RoundRectangle 12"
+                                    StrokeThickness="0"
+                                    Padding="15"
+                                    Grid.Column="3">
+                                <VerticalStackLayout>
+                                    <Label Text="Totales"
+                                           FontSize="14"
+                                           TextColor="Black" />
+                                    <Label Text="{Binding Dashboard.Stats.Total}"
+                                           FontSize="26"
+                                           FontAttributes="Bold"
+                                           TextColor="Black" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </Grid>
+                        <Border />
+                        <!--lista de campeonatos activos-->
+                        <Label Text="Campeonatos Activos"
+                               FontSize="22"
+                               FontAttributes="Bold" />
+
+                        <Label Text="Aun no has creado campeonatos activos"
+                               FontSize="15"
+                               TextColor="{StaticResource Gray400}"
+                               Padding="10,20"
+                               HorizontalTextAlignment="Center"
+                               IsVisible="{Binding Dashboard.HasNotActiveChampionships}" />
+
+                        <CollectionView ItemsSource="{Binding Dashboard.ActiveChampionships}"
+                                        IsVisible="{Binding Dashboard.HasActiveChampionships}"
+                                        SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:ChampionshipResponse">
+                                    <SwipeView>
+                                        <SwipeView.RightItems>
+                                            <SwipeItems Mode="Reveal">
+
+                                                <SwipeItemView>
+                                                    <Grid WidthRequest="90"
+                                                          RowDefinitions="*"
+                                                          Padding="10">
+
+                                                        <ImageButton BackgroundColor="#E53935"
+                                                                     CornerRadius="15"
+                                                                     Padding="20"
+                                                                     Command="{Binding Source={x:Reference nextChampionshipsViewCollection}, Path=BindingContext.DeleteChampionshipCommand}"
+                                                                     CommandParameter="{Binding .}"
+                                                                     Source="trash_icon_white.png" />
+                                                    </Grid>
+                                                </SwipeItemView>
+
+                                            </SwipeItems>
+                                        </SwipeView.RightItems>
+                                        <Border Padding="0"
+                                                Margin="0,8"
+                                                StrokeThickness="2"
+                                                StrokeShape="RoundRectangle 15"
+                                                HeightRequest="120"
+                                                Stroke="#1CC88A"
+                                                BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray500}}">
+
+                                            <Grid ColumnDefinitions="100, *">
+
+                                                <!-- IMAGEN -->
+                                                <Image Grid.Column="0"
+                                                       Aspect="AspectFill"
+                                                       VerticalOptions="Fill"
+                                                       HorizontalOptions="Fill"
+                                                       Source="{Binding LogoUrl, Converter={StaticResource FullPathConverter}}" />
+
+                                                <!-- CONTENIDO -->
+                                                <Grid Grid.Column="1"
+                                                      Padding="10"
+                                                      RowDefinitions="*, Auto">
+
+                                                    <VerticalStackLayout Grid.Row="0"
+                                                                         Spacing="4">
+
+                                                        <Label Text="{Binding Name}"
+                                                               FontAttributes="Bold"
+                                                               FontSize="16"
+                                                               MaxLines="2"
+                                                               LineBreakMode="TailTruncation"
+                                                               TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark=White}" />
+
+                                                        <Label Text="{Binding StartDate, StringFormat='{0:dd MMM yyyy - HH:mm} hs'}"
+                                                               FontSize="12"
+                                                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+
+                                                    </VerticalStackLayout>
+
+                                                    <!-- BOTONES -->
+                                                    <HorizontalStackLayout Grid.Row="1"
+                                                                           Spacing="10"
+                                                                           HorizontalOptions="End">
+
+                                                        <Button Text="Ver Detalles"
+                                                                HeightRequest="32"
+                                                                Padding="15,0"
+                                                                CornerRadius="8"
+                                                                FontSize="12"
+                                                                BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                                                TextColor="White"
+                                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeOrganizerViewModel}}, Path=GoToChampionshipCommand}"
+                                                                CommandParameter="{Binding .}" />
+
+                                                        <Button Text="Ubicación"
+                                                                IsVisible="{Binding HasLocation}"
+                                                                HeightRequest="32"
+                                                                Padding="10"
+                                                                ImageSource="location_icon_white.png"
+                                                                CornerRadius="8"
+                                                                FontSize="12"
+                                                                BackgroundColor="#1CC88A"
+                                                                TextColor="White"
+                                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeOrganizerViewModel}}, Path=ShowMapForChampionshipCommand}"
+                                                                CommandParameter="{Binding .}" />
+                                                    </HorizontalStackLayout>
+
+                                                </Grid>
+                                            </Grid>
+                                        </Border>
+                                    </SwipeView>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <Border />
+                        <!--lista de campeonatos proximos-->
+                        <Label Text="Próximos Campeonatos"
+                               FontSize="22"
+                               FontAttributes="Bold" />
+
+                        <Label Text="Aun no has creado próximos campeonatos"
+                               FontSize="15"
+                               TextColor="{StaticResource Gray400}"
+                               Padding="10,20"
+                               HorizontalTextAlignment="Center"
+                               IsVisible="{Binding Dashboard.HasNotNextChampionships}" />
+
+                        <CollectionView x:Name="nextChampionshipsViewCollection"
+                                        ItemsSource="{Binding Dashboard.NextChampionships}"
+                                        IsVisible="{Binding Dashboard.HasNextChampionships}"
+                                        SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:ChampionshipResponse">
+                                    <SwipeView>
+                                        <SwipeView.RightItems>
+                                            <SwipeItems Mode="Reveal">
+
+                                                <SwipeItemView>
+                                                    <Grid WidthRequest="90"
+                                                          RowDefinitions="*"
+                                                          Padding="10">
+
+                                                        <ImageButton BackgroundColor="#E53935"
+                                                                     CornerRadius="15"
+                                                                     Padding="20"
+                                                                     Command="{Binding Source={x:Reference nextChampionshipsViewCollection}, Path=BindingContext.DeleteChampionshipCommand}"
+                                                                     CommandParameter="{Binding .}"
+                                                                     Source="trash_icon_white.png" />
+                                                    </Grid>
+                                                </SwipeItemView>
+
+                                            </SwipeItems>
+                                        </SwipeView.RightItems>
+                                        <Border Padding="0,10,0,0"
+                                                Stroke="Transparent"
+                                                BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}"
+                                                Margin="0,8"
+                                                StrokeShape="RoundRectangle 15">
+                                            <VerticalStackLayout>
+                                                <Label Text="{Binding Status, Converter={StaticResource ChampionshipStatusToTextConverter}}"
+                                                       HorizontalTextAlignment="Center"
+                                                       VerticalTextAlignment="Center"
+                                                       FontAttributes="Bold"
+                                                       FontSize="13"
+                                                       Margin="0,0,0,8"
+                                                       TextColor="White"/>
+                                                <Border Padding="0"
+                                                        StrokeThickness="2"
+                                                        StrokeShape="RoundRectangle 15"
+                                                        HeightRequest="120"
+                                                        Stroke="{StaticResource Primary}"
+                                                        BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray500}}">
+
+                                                    <Grid ColumnDefinitions="100, *">
+
+                                                        <!-- IMAGEN -->
+                                                        <Image Grid.Column="0"
+                                                               Aspect="AspectFill"
+                                                               VerticalOptions="Fill"
+                                                               HorizontalOptions="Fill"
+                                                               Source="{Binding LogoUrl, Converter={StaticResource FullPathConverter}}" />
+
+                                                        <!-- CONTENIDO -->
+                                                        <Grid Grid.Column="1"
+                                                              Padding="10"
+                                                              RowDefinitions="*, Auto">
+
+                                                            <VerticalStackLayout Grid.Row="0"
+                                                                                 Spacing="4">
+
+                                                                <Label Text="{Binding Name}"
+                                                                       FontAttributes="Bold"
+                                                                       FontSize="16"
+                                                                       MaxLines="2"
+                                                                       LineBreakMode="TailTruncation"
+                                                                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark=White}" />
+
+                                                                <Label Text="{Binding StartDate, StringFormat='{0:dd MMM yyyy - HH:mm} hs'}"
+                                                                       FontSize="12"
+                                                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+
+                                                            </VerticalStackLayout>
+
+                                                            <!-- BOTONES -->
+                                                            <HorizontalStackLayout Grid.Row="1"
+                                                                                   Spacing="10"
+                                                                                   HorizontalOptions="End">
+
+                                                                <Button Text="Ver Detalles"
+                                                                        HeightRequest="32"
+                                                                        Padding="15,0"
+                                                                        CornerRadius="8"
+                                                                        FontSize="12"
+                                                                        BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                                                        TextColor="White"
+                                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeOrganizerViewModel}}, Path=GoToChampionshipCommand}"
+                                                                        CommandParameter="{Binding .}" />
+
+                                                                <Button Text="Ubicación"
+                                                                        IsVisible="{Binding HasLocation}"
+                                                                        HeightRequest="32"
+                                                                        Padding="10"
+                                                                        ImageSource="location_icon_white.png"
+                                                                        CornerRadius="8"
+                                                                        FontSize="12"
+                                                                        BackgroundColor="#1CC88A"
+                                                                        TextColor="White"
+                                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeOrganizerViewModel}}, Path=ShowMapForChampionshipCommand}"
+                                                                        CommandParameter="{Binding .}" />
+                                                            </HorizontalStackLayout>
+
+                                                        </Grid>
+                                                    </Grid>
+                                                </Border>
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </SwipeView>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    </VerticalStackLayout>
+                </ScrollView>
+                <!-- (NO SCROLL) -->
+                <Button Grid.Row="1"
+                        Margin="0,0,20,40"
+                        HeightRequest="60"
+                        WidthRequest="60"
+                        HorizontalOptions="End"
+                        CornerRadius="60"
+                        ImageSource="plus_circled_icon_white.png"
+                        Padding="10"
+                        Command="{Binding GoToCreateChampionshipCommand}" />
+                <components:CustomMap IsVisible="{Binding ShowMap}"
+                                      Grid.RowSpan="2"
+                                      x:Name="ChampionshipMap"
+                                      SetLocation="{Binding Location}" />
+                <!--loading-->
+                <Grid Grid.RowSpan="2"
+                      BackgroundColor="#80000000"
+                      HorizontalOptions="Fill"
+                      VerticalOptions="Fill"
+                      IsVisible="{Binding IsBusy}">
+
+                    <!-- Centra cualquier contenido del Grid -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,100"
+                           Text="{Binding LoadingMessage}"
+                           TextColor="White" />
+                    <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Color="White" />
+
+                </Grid>
+                <components:Popup />
+            </Grid>
+        </PullToRefreshControl:SfPullToRefresh.PullableContent>
+    </PullToRefreshControl:SfPullToRefresh>
+</ContentPage>
