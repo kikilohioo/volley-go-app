@@ -22,7 +22,7 @@
 		<ApplicationTitle>Volley Go!</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.volleygo</ApplicationId>
+		<ApplicationId>com.volleygo.app</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -206,10 +206,20 @@
 	  </MauiImage>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Update="Views\Components\Popup.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </None>
-	</ItemGroup>
+	<Target Name="InjectKeys" BeforeTargets="BeforeBuild">
+		<PropertyGroup>
+			<SourceFile>Platforms\Android\Resources\values\secrets.xml</SourceFile>
+		</PropertyGroup>
+
+		<WriteLinesToFile
+			File="$(SourceFile)"
+			Lines="&lt;resources&gt;&lt;string name='google_maps_key'&gt;$(GoogleMapsApiKey)&lt;/string&gt;&lt;/resources&gt;"
+			Overwrite="true" />
+
+		<!-- Forzar que el archivo sea incluido como AndroidResource -->
+		<ItemGroup>
+			<AndroidResource Include="$(SourceFile)" />
+		</ItemGroup>
+	</Target>
 
 </Project>

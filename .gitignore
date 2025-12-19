@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/VolleyGo/Directory.Build.props
+/VolleyGo/Platforms/Android/Resources/values/secrets.xml
