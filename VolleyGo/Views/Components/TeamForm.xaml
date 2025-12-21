@@ -21,7 +21,42 @@
                 <!-- Nombre del equipo -->
                 <syncfusion:SfTextInputLayout Hint="Nombre del equipo"
                                               HelperText="Ej: Tigres del Norte"
+                                              FocusedStrokeThickness="3"
+                                              UnfocusedStrokeThickness="0.2"
                                               ContainerType="Outlined">
+                    <syncfusion:SfTextInputLayout.HintLabelStyle>
+                        <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                    </syncfusion:SfTextInputLayout.HintLabelStyle>
+                    <syncfusion:SfTextInputLayout.HelperLabelStyle>
+                        <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark={StaticResource Gray100}, Light={StaticResource Gray400}}" />
+                    </syncfusion:SfTextInputLayout.HelperLabelStyle>
+                    <syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                        <syncfusion:LabelStyle TextColor="Red" />
+                    </syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="Stroke"
+                                                Value="{AppThemeBinding Dark=White, Light=Black}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Focused">
+                                    <VisualState.Setters>
+                                        <Setter Property="Stroke"
+                                                Value="{AppThemeBinding Dark={StaticResource Key='PrimaryLigth'}, Light={StaticResource Key='Primary'}}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Error">
+                                    <VisualState.Setters>
+                                        <Setter Property="Stroke"
+                                                Value="Red" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
                     <Entry Text="{Binding Team.Name, Mode=TwoWay}"
                            FontSize="15"
                            FontAttributes="Bold"
@@ -32,7 +67,42 @@
                 <Label Text="Datos del jugador *" />
                 <Grid ColumnDefinitions="*,*,*">
                     <syncfusion:SfTextInputLayout Hint="Nº jugador"
+                                                  FocusedStrokeThickness="3"
+                                                  UnfocusedStrokeThickness="0.2"
                                                   ContainerType="Outlined">
+                        <syncfusion:SfTextInputLayout.HintLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                        </syncfusion:SfTextInputLayout.HintLabelStyle>
+                        <syncfusion:SfTextInputLayout.HelperLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark={StaticResource Gray100}, Light={StaticResource Gray400}}" />
+                        </syncfusion:SfTextInputLayout.HelperLabelStyle>
+                        <syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                            <syncfusion:LabelStyle TextColor="Red" />
+                        </syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="Stroke"
+                                                    Value="{AppThemeBinding Dark=White, Light=Black}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Focused">
+                                        <VisualState.Setters>
+                                            <Setter Property="Stroke"
+                                                    Value="{AppThemeBinding Dark={StaticResource Key='PrimaryLigth'}, Light={StaticResource Key='Primary'}}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Error">
+                                        <VisualState.Setters>
+                                            <Setter Property="Stroke"
+                                                    Value="Red" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
                         <Entry Text="{Binding PlayerJerseyNumber, Mode=TwoWay}"
                                FontSize="15"
                                FontAttributes="Bold"
@@ -41,7 +111,42 @@
                     <syncfusion:SfTextInputLayout Hint="Posición"
                                                   Grid.Column="1"
                                                   HeightRequest="85"
+                                                  FocusedStrokeThickness="3"
+                                                  UnfocusedStrokeThickness="0.2"
                                                   ContainerType="Outlined">
+                        <syncfusion:SfTextInputLayout.HintLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                        </syncfusion:SfTextInputLayout.HintLabelStyle>
+                        <syncfusion:SfTextInputLayout.HelperLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark={StaticResource Gray100}, Light={StaticResource Gray400}}" />
+                        </syncfusion:SfTextInputLayout.HelperLabelStyle>
+                        <syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                            <syncfusion:LabelStyle TextColor="Red" />
+                        </syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="Stroke"
+                                                    Value="{AppThemeBinding Dark=White, Light=Black}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Focused">
+                                        <VisualState.Setters>
+                                            <Setter Property="Stroke"
+                                                    Value="{AppThemeBinding Dark={StaticResource Key='PrimaryLigth'}, Light={StaticResource Key='Primary'}}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Error">
+                                        <VisualState.Setters>
+                                            <Setter Property="Stroke"
+                                                    Value="Red" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
                         <Picker SelectedItem="{Binding SelectedPlayerPosition, Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding Display}"
                                 ItemsSource="{Binding PlayerPositions}"
@@ -51,8 +156,49 @@
                     </syncfusion:SfTextInputLayout>
                     <syncfusion:SfTextInputLayout Hint="Nombre"
                                                   IsEnabled="False"
+                                                  FocusedStrokeThickness="3"
+                                                  UnfocusedStrokeThickness="0.2"
                                                   Grid.Column="2"
                                                   ContainerType="Outlined">
+                        <syncfusion:SfTextInputLayout.HintLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                        </syncfusion:SfTextInputLayout.HintLabelStyle>
+                        <syncfusion:SfTextInputLayout.HelperLabelStyle>
+                            <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark={StaticResource Gray100}, Light={StaticResource Gray400}}" />
+                        </syncfusion:SfTextInputLayout.HelperLabelStyle>
+                        <syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                            <syncfusion:LabelStyle TextColor="Red" />
+                        </syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="Stroke"
+                                                    Value="White" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Focused">
+                                        <VisualState.Setters>
+                                            <Setter Property="Stroke"
+                                                    Value="{StaticResource Key='PrimaryLigth'}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Property="ContainerBackground"
+                                                    Value="{AppThemeBinding Dark={StaticResource Key='Gray600'}, Light={StaticResource Key='Gray100'}}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Error">
+                                        <VisualState.Setters>
+                                            <Setter Property="Stroke"
+                                                    Value="Red" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
                         <Entry Text="{Binding Player.Name}"
                                FontSize="15"
                                FontAttributes="Bold"
@@ -92,6 +238,7 @@
                                     Text="Seleccionar imagen"
                                     Command="{Binding PickLogoCommand}"
                                     HorizontalOptions="End"
+                                    TextColor="White"
                                     VerticalOptions="Center" />
                         </Grid>
                     </Border>
@@ -105,6 +252,7 @@
                                      CornerRadius="10"
                                      FontAttributes="Bold"
                                      FontSize="16"
+                                     TextColor="White"
                                      Background="{StaticResource Primary}" />
 
             </VerticalStackLayout>

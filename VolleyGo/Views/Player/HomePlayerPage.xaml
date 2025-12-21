@@ -14,9 +14,10 @@
     </Shell.TitleView>
     <Grid RowDefinitions="*">
         <syncfusion:SfBottomSheet x:Name="bottomSheet"
-                                  AllowedState="HalfExpanded"
+                                  State="FullExpanded"
                                   Background="{AppThemeBinding Light=White, Dark={StaticResource PrimaryDark}}"
                                   CornerRadius="15, 15, 0, 0"
+                                  FullExpandedRatio="0.54"
                                   IsOpen="{Binding ShowBottomSheet}">
             <syncfusion:SfBottomSheet.Content>
                 <Grid RowDefinitions="*">
@@ -57,7 +58,42 @@
                     <Grid ColumnDefinitions="*,*,*"
                           Grid.Row="1">
                         <syncfusion:SfTextInputLayout Hint="Nº jugador"
+                                                      FocusedStrokeThickness="3"
+                                                      UnfocusedStrokeThickness="1"
                                                       ContainerType="Outlined">
+                            <syncfusion:SfTextInputLayout.HintLabelStyle>
+                                <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                            </syncfusion:SfTextInputLayout.HintLabelStyle>
+                            <syncfusion:SfTextInputLayout.HelperLabelStyle>
+                                <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark={StaticResource Gray100}, Light={StaticResource Gray400}}" />
+                            </syncfusion:SfTextInputLayout.HelperLabelStyle>
+                            <syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                                <syncfusion:LabelStyle TextColor="Red" />
+                            </syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="Stroke"
+                                                        Value="{AppThemeBinding Dark=White, Light=Black}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState Name="Focused">
+                                            <VisualState.Setters>
+                                                <Setter Property="Stroke"
+                                                        Value="{AppThemeBinding Dark={StaticResource Key='PrimaryLigth'}, Light={StaticResource Key='Primary'}}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState Name="Error">
+                                            <VisualState.Setters>
+                                                <Setter Property="Stroke"
+                                                        Value="Red" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
                             <Entry Text="{Binding PlayerJoinTeamRequest.JerseyNumber, Mode=TwoWay}"
                                    FontSize="15"
                                    FontAttributes="Bold"
@@ -66,7 +102,42 @@
                         <syncfusion:SfTextInputLayout Hint="Posición"
                                                       Grid.Column="1"
                                                       HeightRequest="85"
+                                                      FocusedStrokeThickness="3"
+                                                      UnfocusedStrokeThickness="1"
                                                       ContainerType="Outlined">
+                            <syncfusion:SfTextInputLayout.HintLabelStyle>
+                                <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                            </syncfusion:SfTextInputLayout.HintLabelStyle>
+                            <syncfusion:SfTextInputLayout.HelperLabelStyle>
+                                <syncfusion:LabelStyle TextColor="{AppThemeBinding Dark={StaticResource Gray100}, Light={StaticResource Gray400}}" />
+                            </syncfusion:SfTextInputLayout.HelperLabelStyle>
+                            <syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                                <syncfusion:LabelStyle TextColor="Red" />
+                            </syncfusion:SfTextInputLayout.ErrorLabelStyle>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="Stroke"
+                                                        Value="{AppThemeBinding Dark=White, Light=Black}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState Name="Focused">
+                                            <VisualState.Setters>
+                                                <Setter Property="Stroke"
+                                                        Value="{AppThemeBinding Dark={StaticResource Key='PrimaryLigth'}, Light={StaticResource Key='Primary'}}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState Name="Error">
+                                            <VisualState.Setters>
+                                                <Setter Property="Stroke"
+                                                        Value="Red" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
                             <Picker SelectedItem="{Binding SelectedPlayerPosition, Mode=TwoWay}"
                                     ItemDisplayBinding="{Binding Display}"
                                     ItemsSource="{Binding PlayerPositions}"
@@ -132,17 +203,20 @@
                                     Padding="12"
                                     Margin="5,-15,0,0" />
                         </Grid>
+                        <Border Stroke="{AppThemeBinding Dark=White}"
+                                StrokeThickness="0.5" />
                     </VerticalStackLayout>
                     <Button ImageSource="{AppThemeBinding Dark='add_team_icon_black.png', Light='add_team_icon_white.png'}"
                             Text="Inscribir a mi equipo"
                             BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryDark}, Dark={StaticResource PrimaryLigth}}"
                             Command="{Binding RegisterMyTeamCommand}"
                             HeightRequest="50"
+                            Margin="0,5"
                             Grid.Row="3" />
-                    <components:Popup />
                 </Grid>
             </syncfusion:SfBottomSheet.BottomSheetContent>
         </syncfusion:SfBottomSheet>
+        <components:Popup />
         <!--loading-->
         <Grid Grid.RowSpan="2"
               BackgroundColor="#80000000"

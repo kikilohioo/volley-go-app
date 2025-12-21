@@ -16,7 +16,7 @@ public class AuthenticationService
     private readonly NetworkService _networkService;
 
     public AuthenticationService(
-        HttpClient httpClient, 
+        HttpClient httpClient,
         IConfiguration config,
         NetworkService networkService
         )
@@ -30,10 +30,10 @@ public class AuthenticationService
     {
         var accessToken = Preferences.Get(Consts.AccessTokenKey, string.Empty);
 
-        if (string.IsNullOrEmpty(accessToken)) 
+        if (string.IsNullOrEmpty(accessToken))
         {
             Logout();
-            return false; 
+            return false;
         }
 
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
@@ -45,7 +45,7 @@ public class AuthenticationService
         var httpResponse = await _httpClient.GetAsync(uri);
         var response = await httpResponse.Content.ReadAsStringAsync();
 
-        if(httpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+        if (httpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
         {
             Logout();
             throw new UnauthorizedAccessException(Texts.UnathorizedAccesReLogin);
@@ -85,7 +85,7 @@ public class AuthenticationService
     }
 
     public async Task<bool> Register(
-        string email, 
+        string email,
         string password,
         string fullName,
         Stream? profilePicture
@@ -145,7 +145,14 @@ public class AuthenticationService
 
         Preferences.Set(Consts.UserIdKey, user.Id);
         Preferences.Set(Consts.FullNameKey, user.FullName);
-        Preferences.Set(Consts.AvatarUrlKey, $"{_apiSettings.BaseUrl}{_apiSettings.ApiUrl}{user.AvatarUrl}");
+        if (!string.IsNullOrEmpty(user.AvatarUrl))
+        {
+            Preferences.Set(Consts.AvatarUrlKey, $"{_apiSettings.BaseUrl}{_apiSettings.ApiUrl}{user.AvatarUrl}");
+        }
+        else
+        {
+            Preferences.Remove(Consts.AvatarUrlKey);
+        }
         Preferences.Set(Consts.OrganizerModeKey, user.UserRole == Role.organizer);
     }
 }

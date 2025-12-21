@@ -241,7 +241,7 @@
                                         </SwipeView.RightItems>
                                         <Border Padding="0,10,0,0"
                                                 Stroke="Transparent"
-                                                BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}"
+                                                BackgroundColor="{StaticResource Primary}"
                                                 Margin="0,8"
                                                 StrokeShape="RoundRectangle 15">
                                             <VerticalStackLayout>

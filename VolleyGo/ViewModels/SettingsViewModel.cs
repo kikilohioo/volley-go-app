@@ -16,7 +16,7 @@ public partial class SettingsViewModel : BaseViewModel
     private Stream? avatarImage;
     
     [ObservableProperty]
-    private ImageSource? auxAvatarImage;
+    private ImageSource? auxAvatarImage = ImageSource.FromFile("avatar_default.png");
 
     [ObservableProperty]
     private string email;
@@ -87,13 +87,13 @@ public partial class SettingsViewModel : BaseViewModel
             catch
             {
                 // Si falla la descarga, poner imagen por defecto
-                AuxAvatarImage = "default_avatar.png";
+                AuxAvatarImage = "avatar_default.png";
             }
         }
         else
         {
             // Si no hay avatar en el usuario
-            AuxAvatarImage = "default_avatar.png";
+            AuxAvatarImage = "avatar_default.png";
         }
     }
 

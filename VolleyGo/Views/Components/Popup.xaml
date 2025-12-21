@@ -5,26 +5,38 @@
              xmlns:languages="clr-namespace:VolleyGo.Utils.Languages"
              x:Class="VolleyGo.Views.Components.Popup"
              IsVisible="{Binding ShowPopup}">
-    <syncfusion:SfPopup x:Name="sfPopup"     
-                 StaysOpen="True"
-                 HeaderTitle="{Binding PopupTitle}"
-                 ShowCloseButton="True"
-                 DeclineCommand="{Binding ClosePopupCommand}"
-                 AcceptCommand="{Binding ClosePopupCommand}"
-                 AcceptButtonText="{languages:Translate Accept}"
-                 ShowFooter="True"
-                 WidthRequest="312"
-                 AutoSizeMode="Height"
-                 IsOpen="{Binding ShowPopup}"
-                 HeaderHeight="72">
+    <syncfusion:SfPopup x:Name="sfPopup"
+                        StaysOpen="True"
+                        HeaderTitle="{Binding PopupTitle}"
+                        ShowCloseButton="True"
+                        DeclineCommand="{Binding ClosePopupCommand}"
+                        AcceptCommand="{Binding ClosePopupCommand}"
+                        AcceptButtonText="{languages:Translate Accept}"
+                        ShowFooter="True"
+                        WidthRequest="312"
+                        AutoSizeMode="Height"
+                        IsOpen="{Binding ShowPopup}"
+                        HeaderHeight="72">
+        <syncfusion:SfPopup.PopupStyle>
+            <syncfusion:PopupStyle MessageBackground="{AppThemeBinding Light=White, Dark={StaticResource Gray500}}"
+                                   MessageTextColor="{AppThemeBinding Light=Black, Dark=White}"
+                                   HeaderBackground="{AppThemeBinding Light=White, Dark={StaticResource Gray500}}"
+                                   FooterBackground="{AppThemeBinding Light=White, Dark={StaticResource Gray500}}"
+                                   AcceptButtonTextColor="{AppThemeBinding Light=Black, Dark=White}"
+                                   CloseIconColor="{AppThemeBinding Light=Black, Dark=White}"
+                                   HeaderTextColor="{AppThemeBinding Light=Black, Dark=White}"
+                                   StrokeThickness="0"
+                                   />
+        </syncfusion:SfPopup.PopupStyle>
         <syncfusion:SfPopup.ContentTemplate>
             <DataTemplate>
                 <Label Text="{Binding PopupMessage}"
-                        LineBreakMode="WordWrap"
-                        Padding="25,0"
-                        TextColor="#49454E" FontSize="14" 
-                        WidthRequest="300"
-                       />
+                       LineBreakMode="WordWrap"
+                       Padding="25,10"
+                       Margin="-5"
+                       TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                       FontSize="14"
+                       WidthRequest="300" />
             </DataTemplate>
         </syncfusion:SfPopup.ContentTemplate>
     </syncfusion:SfPopup>

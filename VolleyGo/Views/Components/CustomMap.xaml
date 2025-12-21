@@ -15,8 +15,8 @@
 
         <!-- MODAL -->
         <Border
-            StrokeThickness="1"
-            BackgroundColor="{AppThemeBinding Light=White, Dark=#1A1A1A}"
+            StrokeThickness="0"
+            BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource PrimaryDark}}"
             Padding="0"
             HorizontalOptions="Center"
             VerticalOptions="Center"
