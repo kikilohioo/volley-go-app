@@ -121,6 +121,9 @@
 	  <Compile Update="Views\Player\CreateTeamPage.xaml.cs">
 	    <DependentUpon>CreateTeamPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\Player\ShowChampionshipPage.xaml.cs">
+	    <DependentUpon>ShowChampionshipPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\RegisterPage.xaml.cs">
 	    <DependentUpon>RegisterPage.xaml</DependentUpon>
 	  </Compile>
@@ -169,6 +172,9 @@
 	  <MauiXaml Update="Views\Player\CreateTeamPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Player\ShowChampionshipPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\RegisterPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -211,10 +217,7 @@
 			<SourceFile>Platforms\Android\Resources\values\secrets.xml</SourceFile>
 		</PropertyGroup>
 
-		<WriteLinesToFile
-			File="$(SourceFile)"
-			Lines="&lt;resources&gt;&lt;string name='google_maps_key'&gt;$(GoogleMapsApiKey)&lt;/string&gt;&lt;/resources&gt;"
-			Overwrite="true" />
+		<WriteLinesToFile File="$(SourceFile)" Lines="&lt;resources&gt;&lt;string name='google_maps_key'&gt;$(GoogleMapsApiKey)&lt;/string&gt;&lt;/resources&gt;" Overwrite="true" />
 
 		<!-- Forzar que el archivo sea incluido como AndroidResource -->
 		<ItemGroup>

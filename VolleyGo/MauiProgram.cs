@@ -96,6 +96,9 @@ namespace VolleyGo
             builder.Services.AddTransient<ChampionshipOrganizerViewModel>();
             builder.Services.AddTransient<ChampionshipOrganizerPage>();
 
+            builder.Services.AddTransient<ShowChampionshipViewModel>();
+            builder.Services.AddTransient<ShowChampionshipPage>();
+
             builder.Services.AddTransient<CreateChampionshipViewModel>();
             builder.Services.AddTransient<CreateChampionshipPage>();
 
@@ -111,6 +114,7 @@ namespace VolleyGo
             RouteLogger.RegisterRoute(nameof(CreateChampionshipPage), typeof(CreateChampionshipPage));
             RouteLogger.RegisterRoute(nameof(UpdateChampionshipPage), typeof(UpdateChampionshipPage));
             RouteLogger.RegisterRoute(nameof(CreateTeamPage), typeof(CreateTeamPage));
+            RouteLogger.RegisterRoute(nameof(ShowChampionshipPage), typeof(ShowChampionshipPage));
 
 #if DEBUG
             builder.Logging.AddDebug();

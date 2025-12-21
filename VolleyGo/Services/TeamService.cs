@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Text;
+using VolleyGo.Models.API.Player;
 using VolleyGo.Models.API.Team;
 using VolleyGo.Resources.Languages;
 using VolleyGo.Utils;
@@ -69,7 +71,7 @@ public class TeamService
         return JsonConvert.DeserializeObject<TeamResponse>(response)!;
     }
 
-    public async Task<TeamResponse> CreateTeam(TeamRequest request)
+    public async Task<TeamResponse> CreateTeam(TeamRequest request, PlayerRequest player)
     {
         if (!await _networkService.CanReachServer())
             throw new HttpRequestException(Texts.NoNetworkAccess);
@@ -82,6 +84,14 @@ public class TeamService
 
         form.Add(new StringContent(request.Name), "name");
         form.Add(new StringContent(request.ChampionshipId.ToString()), "championship_id");
+
+        var playerJson = JsonConvert.SerializeObject(player);
+        var playerContent = new StringContent(
+            playerJson,
+            Encoding.UTF8,
+            "application/json"
+        );
+        form.Add(playerContent, "player");
 
         // Logo (opcional)
         if (request.LogoBytes?.Length > 0)
@@ -114,9 +124,10 @@ public class TeamService
     }
 
     public async Task<TeamResponse> UpdateTeam(
-    int teamId,
-    TeamRequest request
-)
+        int teamId,
+        TeamRequest request,
+        PlayerRequest player
+    )
     {
         if (!await _networkService.CanReachServer())
             throw new HttpRequestException(Texts.NoNetworkAccess);
@@ -129,6 +140,14 @@ public class TeamService
 
         form.Add(new StringContent(request.Name), "name");
         form.Add(new StringContent(request.ChampionshipId.ToString()), "championship_id");
+
+        var playerJson = JsonConvert.SerializeObject(player);
+        var playerContent = new StringContent(
+            playerJson,
+            Encoding.UTF8,
+            "application/json"
+        );
+        form.Add(playerContent, "player");
 
         // Logo (opcional)
         if (request.LogoBytes?.Length > 0)

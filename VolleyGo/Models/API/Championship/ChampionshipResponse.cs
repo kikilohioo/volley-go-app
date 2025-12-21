@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using VolleyGo.Models.API.Team;
 using VolleyGo.Models.API.User;
 
 namespace VolleyGo.Models.API.Championship;
@@ -58,7 +59,7 @@ public class ChampionshipResponse
 
     public string Status { get; set; } = string.Empty;
 
-    public List<int> Teams { get; set; } = new();
+    public TeamsResponse Teams { get; set; } = new();
 
     [JsonProperty("created_at")]
     public DateTime CreatedAt { get; set; }

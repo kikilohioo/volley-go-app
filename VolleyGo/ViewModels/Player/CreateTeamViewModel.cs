@@ -1,11 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 using VolleyGo.Interfaces;
 using VolleyGo.Models.API.Championship;
 using VolleyGo.Models.API.Player;
 using VolleyGo.Models.API.Team;
 using VolleyGo.Resources.Languages;
 using VolleyGo.Services;
+using VolleyGo.Utils;
+using static VolleyGo.ViewModels.Player.HomePlayerViewModel;
 
 namespace VolleyGo.ViewModels.Player;
 
@@ -21,6 +24,9 @@ public partial class CreateTeamViewModel : BaseViewModel
 
     [ObservableProperty]
     private PlayerRequest player = new();
+
+    [ObservableProperty]
+    private int playerJerseyNumber;
 
     // -----------------------------
     // UI STATE
@@ -51,6 +57,18 @@ public partial class CreateTeamViewModel : BaseViewModel
     [ObservableProperty]
     private ChampionshipResponse? selectedChampionship;
 
+    [ObservableProperty]
+    private PlayerPositionOption selectedPlayerPosition;
+
+    [ObservableProperty]
+    private ObservableCollection<PlayerPositionOption> playerPositions = [
+            new() { Value = "setter", Display = "Armador" },
+            new() { Value = "outside_hitter", Display = "Punta" },
+            new() { Value = "middle_blocker", Display = "Central" },
+            new() { Value = "opposite_spiker", Display = "Opuesto" },
+            new() { Value = "libero", Display = "Líbero" },
+        ];
+
     partial void OnSelectedChampionshipChanged(ChampionshipResponse? value)
     {
         if (value == null) return;
@@ -78,6 +96,8 @@ public partial class CreateTeamViewModel : BaseViewModel
         _championshipService = championshipService;
         _navigationService = navigationService;
         _cameraService = cameraService;
+
+        Player.Name = Preferences.Get(Consts.FullNameKey, string.Empty);
     }
 
     [RelayCommand]
@@ -113,13 +133,16 @@ public partial class CreateTeamViewModel : BaseViewModel
 
             TeamResponse result;
 
+            Player.Position = SelectedPlayerPosition.Value;
+            Player.JerseyNumber = PlayerJerseyNumber;
+
             if (IsEditing)
             {
-                result = await _teamService.UpdateTeam(teamId: 1, request: Team);
+                result = await _teamService.UpdateTeam(teamId: 1, request: Team, player: Player);
             }
             else
             {
-                result = await _teamService.CreateTeam(Team);
+                result = await _teamService.CreateTeam(Team, Player);
             }
 
             DisplayPopup(
@@ -131,7 +154,7 @@ public partial class CreateTeamViewModel : BaseViewModel
             HasUnsavedChanges = false;
             await Task.Delay(2000);
             ShowPopup = false;
-            await _navigationService.GoToAsync("..");
+            await _navigationService.GoToAsync("..?refresh=true");
         }
         catch (UnauthorizedAccessException ex)
         {

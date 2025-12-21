@@ -1,23 +1,22 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Syncfusion.Maui.Toolkit.BottomSheet;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using VolleyGo.Interfaces;
 using VolleyGo.Models.API.Championship;
 using VolleyGo.Models.API.Player;
-using VolleyGo.Models.API.Team;
 using VolleyGo.Resources.Languages;
 using VolleyGo.Services;
 using VolleyGo.Utils;
 using VolleyGo.Views;
-using VolleyGo.Views.Organizer;
 using VolleyGo.Views.Player;
 
 namespace VolleyGo.ViewModels.Player;
 
 public partial class HomePlayerViewModel : BaseViewModel
 {
+    [ObservableProperty]
+    private bool isRefreshing;
+
     [ObservableProperty]
     private bool showBottomSheet;
 
@@ -66,6 +65,8 @@ public partial class HomePlayerViewModel : BaseViewModel
             new() { Value = "libero", Display = "Líbero" },
         ];
 
+    public bool _isLoaded = false;
+
     private readonly AuthenticationService _authenticationService;
     private readonly INavigationService _navigationService;
     private readonly ChampionshipService _championshipService;
@@ -95,6 +96,7 @@ public partial class HomePlayerViewModel : BaseViewModel
         {
             await SetUserRole();
             await LoadChampionships();
+            _isLoaded = true;
         });
     }
 
@@ -127,7 +129,15 @@ public partial class HomePlayerViewModel : BaseViewModel
         try
         {
             if (IsBusy) return;
-            IsBusy = true;
+            if (_isLoaded)
+            {
+                IsRefreshing = true;
+            }
+            else
+            {
+                IsBusy = true;
+            }
+            LoadingMessage = "Cargando info de campeonatos...";
             var response = await _championshipService.GetChampionships();
             Championships = new ObservableCollection<ChampionshipResponse>(response);
         }
@@ -142,6 +152,8 @@ public partial class HomePlayerViewModel : BaseViewModel
         finally
         {
             IsBusy = false;
+            IsRefreshing = false;
+            LoadingMessage = null;
         }
     }
 
@@ -224,8 +236,10 @@ public partial class HomePlayerViewModel : BaseViewModel
 
             IsBusy = true;
             ShowBottomSheet = false;
+            LoadingMessage = "Estas apunto de inscribir a tu equipo...";
             await Task.Delay(1000);
             IsBusy = false;
+
 
             await _navigationService.GoToAsync($"{nameof(CreateTeamPage)}?championship_name={ToRegisterToChampionshipName}&championship_id={ToRegisterToChampionshipId}");
 
@@ -243,6 +257,38 @@ public partial class HomePlayerViewModel : BaseViewModel
         finally
         {
             IsBusy = false;
+            LoadingMessage = null;
+        }
+    }
+
+    [RelayCommand]
+    private async Task ShowChampionship(ChampionshipResponse championship)
+    {
+        try
+        {
+            if (IsBusy) return;
+
+            IsBusy = true;
+            LoadingMessage = "Abriendo campeonato...";
+            await Task.Delay(1000);
+            IsBusy = false;
+
+            await _navigationService.GoToAsync($"{nameof(ShowChampionshipPage)}?id={championship.Id}");
+
+            await Task.Delay(2000);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            DisplayPopup(Texts.Error, ex.Message, Texts.Accept);
+        }
+        catch (Exception ex)
+        {
+            DisplayPopup(Texts.Error, ex.Message, Texts.Accept);
+        }
+        finally
+        {
+            IsBusy = false;
+            LoadingMessage = null;
         }
     }
 

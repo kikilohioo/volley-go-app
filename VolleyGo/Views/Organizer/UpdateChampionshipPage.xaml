@@ -422,7 +422,7 @@
                                                                                 <Setter Property="HeaderBackground"
                                                                                         Value="#141C1B1F" />
                                                                                 <Setter Property="HeaderIconColor"
-                                                                                        Value="{AppThemeBinding Light={StaticResource Key='Grey100'}, Dark={StaticResource Key='Gray500'}}" />
+                                                                                        Value="{AppThemeBinding Light={StaticResource Key='Gray100'}, Dark={StaticResource Key='Gray500'}}" />
                                                                                 <Setter Property="BackgroundColor"
                                                                                         Value="{AppThemeBinding Light=White, Dark={StaticResource Key='Gray500'}}" />
                                                                             </VisualState.Setters>

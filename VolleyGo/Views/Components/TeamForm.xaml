@@ -22,7 +22,7 @@
                 <syncfusion:SfTextInputLayout Hint="Nombre del equipo"
                                               HelperText="Ej: Tigres del Norte"
                                               ContainerType="Outlined">
-                    <Entry Text="{Binding Team.Name}"
+                    <Entry Text="{Binding Team.Name, Mode=TwoWay}"
                            FontSize="15"
                            FontAttributes="Bold"
                            TextColor="{AppThemeBinding Dark=White, Light=Black}" />
@@ -33,7 +33,7 @@
                 <Grid ColumnDefinitions="*,*,*">
                     <syncfusion:SfTextInputLayout Hint="Nº jugador"
                                                   ContainerType="Outlined">
-                        <Entry Text="{Binding Player.Number}"
+                        <Entry Text="{Binding PlayerJerseyNumber, Mode=TwoWay}"
                                FontSize="15"
                                FontAttributes="Bold"
                                TextColor="{AppThemeBinding Dark=White, Light=Black}" />
@@ -42,7 +42,9 @@
                                                   Grid.Column="1"
                                                   HeightRequest="85"
                                                   ContainerType="Outlined">
-                        <Picker SelectedItem="{Binding Player.Position}"
+                        <Picker SelectedItem="{Binding SelectedPlayerPosition, Mode=TwoWay}"
+                                ItemDisplayBinding="{Binding Display}"
+                                ItemsSource="{Binding PlayerPositions}"
                                 FontSize="15"
                                 FontAttributes="Bold"
                                 TextColor="{AppThemeBinding Dark=White, Light=Black}" />

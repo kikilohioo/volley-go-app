@@ -26,7 +26,7 @@
                 <SwipeView>
 
                     <!-- 👉 ACCIONES AL SWIPE -->
-                    <SwipeView.RightItems>
+                    <!--<SwipeView.RightItems>
                         <SwipeItems Mode="Reveal">
                             <SwipeItem BackgroundColor="#E53935"
                                        IconImageSource="trash_icon_white.png"
@@ -35,7 +35,7 @@
                                               Path=DeleteChampionshipCommand}"
                                        CommandParameter="{Binding .}" />
                         </SwipeItems>
-                    </SwipeView.RightItems>
+                    </SwipeView.RightItems>-->
                     <Border Padding="0"
                             Margin="10,20,10,10"
                             StrokeThickness="0.4"
@@ -114,7 +114,7 @@
                                             BackgroundColor="{StaticResource PrimaryLigth}"
                                             TextColor="White"
                                             FontAttributes="Bold"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ChampionshipList}}, Path=GoToChampionshipCommand}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ChampionshipList}}, Path=ShowChampionshipCommand}"
                                             CommandParameter="{Binding .}" />
                                     <Button Text="Ver campeonato"
                                             Grid.Column="1"
@@ -126,7 +126,7 @@
                                             BackgroundColor="{StaticResource Primary}"
                                             TextColor="White"
                                             FontAttributes="Bold"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ChampionshipList}}, Path=GoToChampionshipCommand}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ChampionshipList}}, Path=ShowChampionshipCommand}"
                                             CommandParameter="{Binding .}" />
                                 </Grid>
 

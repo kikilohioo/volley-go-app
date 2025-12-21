@@ -31,6 +31,15 @@ public partial class ChampionshipList : ContentView
         set => SetValue(DeleteCommandProperty, value);
     }
 
+    public static readonly BindableProperty ShowChampionshipCommandProperty =
+        BindableProperty.Create(nameof(ShowChampionshipCommand), typeof(ICommand), typeof(ChampionshipList));
+
+    public ICommand ShowChampionshipCommand
+    {
+        get => (ICommand)GetValue(ShowChampionshipCommandProperty);
+        set => SetValue(ShowChampionshipCommandProperty, value);
+    }
+
     public ChampionshipList()
     {
         InitializeComponent();

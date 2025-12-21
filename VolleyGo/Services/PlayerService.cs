@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using VolleyGo.Models.API;
 using VolleyGo.Models.API.Player;
 using VolleyGo.Resources.Languages;
 using VolleyGo.Utils;
@@ -102,7 +103,9 @@ public class PlayerService
                 ? response
                 : "Error uniéndose al equipo";
 
-            throw new Exception(message);
+            var result = JsonConvert.DeserializeObject<ErrorResponse>(response)!;
+
+            throw new Exception(result.Message);
         }
 
         return JsonConvert.DeserializeObject<PlayerResponse>(response)!;

@@ -4,6 +4,6 @@ namespace VolleyGo.Models.API;
 
 public class ErrorResponse
 {
-    [JsonProperty("message")]
+    [JsonProperty("detail")]
     public string Message { get; set; }
 }

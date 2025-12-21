@@ -46,7 +46,7 @@ public partial class ChampionshipOrganizerViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+            await Application.Current.MainPage.DisplayAlertAsync("Error", ex.Message, "OK");
         }
         finally
         {
